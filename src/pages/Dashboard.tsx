@@ -29,7 +29,6 @@ const Dashboard = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
   
-  // Simulated eco challenges for the dashboard
   const featuredChallenges: EcoChallenge[] = [
     {
       id: "1",
@@ -221,26 +220,27 @@ const Dashboard = () => {
             <div className="space-y-2">
               <div className="flex items-center justify-between p-2 bg-green-100 rounded">
                 <span>Excellent (0-50)</span>
-                <Badge variant="outline" className="bg-green-500 text-white">Safe</Badge>
+                <Badge className="bg-green-500">Safe</Badge>
               </div>
               <div className="flex items-center justify-between p-2 bg-lime-100 rounded">
                 <span>Good (51-100)</span>
-                <Badge variant="outline" className="bg-lime-500 text-white">Safe</Badge>
+                <Badge className="bg-lime-500">Safe</Badge>
               </div>
               <div className="flex items-center justify-between p-2 bg-yellow-100 rounded">
                 <span>Fair (101-150)</span>
-                <Badge variant="outline" className="bg-yellow-500">Moderate</Badge>
+                <Badge className="bg-yellow-500">Moderate</Badge>
               </div>
               <div className="flex items-center justify-between p-2 bg-orange-100 rounded">
                 <span>Poor (151-200)</span>
-                <Badge variant="outline" className="bg-orange-500">Poor</Badge>
-              </div>
-                <span>Marginal (25-50)</span>
                 <Badge className="bg-orange-500">Poor</Badge>
               </div>
               <div className="flex items-center justify-between p-2 bg-red-100 rounded">
-                <span>Poor (0-25)</span>
-                <Badge className="bg-red-500">Unsafe</Badge>
+                <span>Very Poor (201-300)</span>
+                <Badge className="bg-red-500">Very Poor</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-[#7D1919]/20 rounded">
+                <span>Hazardous (301+)</span>
+                <Badge className="bg-[#7D1919]">Hazardous</Badge>
               </div>
             </div>
           </CardContent>
