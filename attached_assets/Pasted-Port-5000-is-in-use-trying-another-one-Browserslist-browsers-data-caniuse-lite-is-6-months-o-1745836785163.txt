@@ -1,0 +1,222 @@
+Port 5000 is in use, trying another one...
+Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Error processing file src/pages/Dashboard.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "VarRedeclaration",
+        loc: Position {
+  line: 16,
+  column: 9,
+  index: 864,
+},
+        pos: 864,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6913:21)
+      at declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7350:16)
+      at checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7346:12)
+      at checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7287:12)
+      at finishImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13735:10)
+      at parseNamedImportSpecifiers (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13879:36)
+      at parseImportSpecifiersAndAfter (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13712:37)
+      at parseImport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9073:26)
+
+10:39:14 AM [vite] Pre-transform error:   × the name `Badge` is defined multiple times
+    ╭─[/home/runner/workspace/src/pages/Dashboard.tsx:7:1]
+  4 │ import { CitySelector } from "@/components/pollution/CitySelector";
+  5 │ import { PollutionAlert } from "@/components/pollution/PollutionAlert";
+  6 │ import { ChallengeCard } from "@/components/challenges/ChallengeCard";
+  7 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── previous definition of `Badge` here
+  8 │ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+  9 │ import { Skeleton } from "@/components/ui/skeleton";
+ 10 │ import { Button } from "@/components/ui/button";
+ 11 │ import { Camera, ChartLine, MapPin, RefreshCw } from "lucide-react";
+ 12 │ import { EcoChallenge } from "@/types";
+ 13 │ import { useState } from "react";
+ 14 │ import { useToast } from "@/components/ui/use-toast";
+ 15 │ import { Link } from "react-router-dom";
+ 16 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── `Badge` redefined here
+ 17 │ 
+ 18 │ const Dashboard = () => {
+ 19 │   const { 
+    ╰────
+
+10:39:14 AM [vite] Pre-transform error:   × Expected a semicolon
+     ╭─[/home/runner/workspace/src/lib/api.ts:187:1]
+ 184 │   );
+ 185 │ 
+ 186 │   return stateData.sort((a, b) => b.averageAQI - a.averageAQI);
+ 187 │ };
+     ·  ▲
+ 188 │ 
+ 189 │ const generateHotspotsForState = async (
+ 190 │   state: string,
+     ╰────
+  × 'import', and 'export' cannot be used outside of module code
+     ╭─[/home/runner/workspace/src/lib/api.ts:261:1]
+ 258 │   }
+ 259 │ };
+ 260 │ 
+ 261 │ export const getCityCoordinates = async (city: string): Promise<{lat: number, lng: number}> => {
+     · ──────
+ 262 │   try {
+ 263 │     const response = await fetch(
+ 264 │       `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=4fb59c9232664f91a0e0e65d80dff0d4`
+     ╰────
+
+
+Caused by:
+    Syntax Error
+10:39:14 AM [vite] Pre-transform error:   × Expected a semicolon
+     ╭─[/home/runner/workspace/src/lib/api.ts:187:1]
+ 184 │   );
+ 185 │ 
+ 186 │   return stateData.sort((a, b) => b.averageAQI - a.averageAQI);
+ 187 │ };
+     ·  ▲
+ 188 │ 
+ 189 │ const generateHotspotsForState = async (
+ 190 │   state: string,
+     ╰────
+  × 'import', and 'export' cannot be used outside of module code
+     ╭─[/home/runner/workspace/src/lib/api.ts:261:1]
+ 258 │   }
+ 259 │ };
+ 260 │ 
+ 261 │ export const getCityCoordinates = async (city: string): Promise<{lat: number, lng: number}> => {
+     · ──────
+ 262 │   try {
+ 263 │     const response = await fetch(
+ 264 │       `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=4fb59c9232664f91a0e0e65d80dff0d4`
+     ╰────
+
+
+Caused by:
+    Syntax Error (x2)
+10:39:14 AM [vite] Pre-transform error:   × Expected a semicolon
+     ╭─[/home/runner/workspace/src/lib/api.ts:187:1]
+ 184 │   );
+ 185 │ 
+ 186 │   return stateData.sort((a, b) => b.averageAQI - a.averageAQI);
+ 187 │ };
+     ·  ▲
+ 188 │ 
+ 189 │ const generateHotspotsForState = async (
+ 190 │   state: string,
+     ╰────
+  × 'import', and 'export' cannot be used outside of module code
+     ╭─[/home/runner/workspace/src/lib/api.ts:261:1]
+ 258 │   }
+ 259 │ };
+ 260 │ 
+ 261 │ export const getCityCoordinates = async (city: string): Promise<{lat: number, lng: number}> => {
+     · ──────
+ 262 │   try {
+ 263 │     const response = await fetch(
+ 264 │       `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=4fb59c9232664f91a0e0e65d80dff0d4`
+     ╰────
+
+
+Caused by:
+    Syntax Error (x3)
+10:39:14 AM [vite] Pre-transform error:   × Expected a semicolon
+     ╭─[/home/runner/workspace/src/lib/api.ts:187:1]
+ 184 │   );
+ 185 │ 
+ 186 │   return stateData.sort((a, b) => b.averageAQI - a.averageAQI);
+ 187 │ };
+     ·  ▲
+ 188 │ 
+ 189 │ const generateHotspotsForState = async (
+ 190 │   state: string,
+     ╰────
+  × 'import', and 'export' cannot be used outside of module code
+     ╭─[/home/runner/workspace/src/lib/api.ts:261:1]
+ 258 │   }
+ 259 │ };
+ 260 │ 
+ 261 │ export const getCityCoordinates = async (city: string): Promise<{lat: number, lng: number}> => {
+     · ──────
+ 262 │   try {
+ 263 │     const response = await fetch(
+ 264 │       `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=4fb59c9232664f91a0e0e65d80dff0d4`
+     ╰────
+
+
+Caused by:
+    Syntax Error (x4)
+Error processing file src/pages/Dashboard.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "VarRedeclaration",
+        loc: Position {
+  line: 16,
+  column: 9,
+  index: 864,
+},
+        pos: 864,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6913:21)
+      at declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7350:16)
+      at checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7346:12)
+      at checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7287:12)
+      at finishImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13735:10)
+      at parseNamedImportSpecifiers (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13879:36)
+      at parseImportSpecifiersAndAfter (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13712:37)
+      at parseImport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9073:26)
+
+10:39:15 AM [vite] Internal server error:   × the name `Badge` is defined multiple times
+    ╭─[/home/runner/workspace/src/pages/Dashboard.tsx:7:1]
+  4 │ import { CitySelector } from "@/components/pollution/CitySelector";
+  5 │ import { PollutionAlert } from "@/components/pollution/PollutionAlert";
+  6 │ import { ChallengeCard } from "@/components/challenges/ChallengeCard";
+  7 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── previous definition of `Badge` here
+  8 │ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+  9 │ import { Skeleton } from "@/components/ui/skeleton";
+ 10 │ import { Button } from "@/components/ui/button";
+ 11 │ import { Camera, ChartLine, MapPin, RefreshCw } from "lucide-react";
+ 12 │ import { EcoChallenge } from "@/types";
+ 13 │ import { useState } from "react";
+ 14 │ import { useToast } from "@/components/ui/use-toast";
+ 15 │ import { Link } from "react-router-dom";
+ 16 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── `Badge` redefined here
+ 17 │ 
+ 18 │ const Dashboard = () => {
+ 19 │   const { 
+    ╰────
+
+  Plugin: vite:react-swc
+  File: /home/runner/workspace/src/pages/Dashboard.tsx:7:1
+  125|        </div>
+  126|  
+  127|        {pollutionData?.aqi && pollutionData.aqi.aqi > 150 && (
+     |                                   ^
+  128|          <PollutionAlert aqi={pollutionData.aqi.aqi} />
+  129|        )}
