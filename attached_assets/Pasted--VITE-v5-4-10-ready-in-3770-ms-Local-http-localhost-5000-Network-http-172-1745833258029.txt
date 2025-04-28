@@ -1,0 +1,240 @@
+
+  VITE v5.4.10  ready in 3770 ms
+
+  ➜  Local:   http://localhost:5000/
+  ➜  Network: http://172.31.128.97:5000/
+  ➜  press h + enter to show help
+Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Error processing file src/pages/Dashboard.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "VarRedeclaration",
+        loc: Position {
+  line: 17,
+  column: 9,
+  index: 865,
+},
+        pos: 865,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6913:21)
+      at declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7350:16)
+      at checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7346:12)
+      at checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7287:12)
+      at finishImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13735:10)
+      at parseNamedImportSpecifiers (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13879:36)
+      at parseImportSpecifiersAndAfter (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13712:37)
+      at parseImport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9073:26)
+
+9:39:24 AM [vite] Pre-transform error:   × the name `Badge` is defined multiple times
+    ╭─[/home/runner/workspace/src/pages/Dashboard.tsx:8:1]
+  5 │ import { CitySelector } from "@/components/pollution/CitySelector";
+  6 │ import { PollutionAlert } from "@/components/pollution/PollutionAlert";
+  7 │ import { ChallengeCard } from "@/components/challenges/ChallengeCard";
+  8 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── previous definition of `Badge` here
+  9 │ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+ 10 │ import { Skeleton } from "@/components/ui/skeleton";
+ 11 │ import { Button } from "@/components/ui/button";
+ 12 │ import { Camera, ChartLine, MapPin, RefreshCw } from "lucide-react";
+ 13 │ import { EcoChallenge } from "@/types";
+ 14 │ import { useState } from "react";
+ 15 │ import { useToast } from "@/components/ui/use-toast";
+ 16 │ import { Link } from "react-router-dom";
+ 17 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── `Badge` redefined here
+ 18 │ 
+ 19 │ const Dashboard = () => {
+ 20 │   const { 
+    ╰────
+
+Error processing file src/pages/Dashboard.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "VarRedeclaration",
+        loc: Position {
+  line: 17,
+  column: 9,
+  index: 865,
+},
+        pos: 865,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6913:21)
+      at declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7350:16)
+      at checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7346:12)
+      at checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7287:12)
+      at finishImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13735:10)
+      at parseNamedImportSpecifiers (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13879:36)
+      at parseImportSpecifiersAndAfter (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13712:37)
+      at parseImport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9073:26)
+
+9:39:26 AM [vite] Internal server error:   × the name `Badge` is defined multiple times
+    ╭─[/home/runner/workspace/src/pages/Dashboard.tsx:8:1]
+  5 │ import { CitySelector } from "@/components/pollution/CitySelector";
+  6 │ import { PollutionAlert } from "@/components/pollution/PollutionAlert";
+  7 │ import { ChallengeCard } from "@/components/challenges/ChallengeCard";
+  8 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── previous definition of `Badge` here
+  9 │ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+ 10 │ import { Skeleton } from "@/components/ui/skeleton";
+ 11 │ import { Button } from "@/components/ui/button";
+ 12 │ import { Camera, ChartLine, MapPin, RefreshCw } from "lucide-react";
+ 13 │ import { EcoChallenge } from "@/types";
+ 14 │ import { useState } from "react";
+ 15 │ import { useToast } from "@/components/ui/use-toast";
+ 16 │ import { Link } from "react-router-dom";
+ 17 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── `Badge` redefined here
+ 18 │ 
+ 19 │ const Dashboard = () => {
+ 20 │   const { 
+    ╰────
+
+  Plugin: vite:react-swc
+  File: /home/runner/workspace/src/pages/Dashboard.tsx:8:1
+  126|        </div>
+  127|        
+  128|        {pollutionData?.aqi && pollutionData.aqi.aqi > 150 && (
+     |        ^
+  129|          <PollutionAlert aqi={pollutionData.aqi.aqi} />
+  130|        )}
+9:39:29 AM [vite] ✨ new dependencies optimized: @radix-ui/react-scroll-area
+9:39:29 AM [vite] ✨ optimized dependencies changed. reloading
+Error processing file src/pages/Dashboard.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "VarRedeclaration",
+        loc: Position {
+  line: 17,
+  column: 9,
+  index: 865,
+},
+        pos: 865,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6913:21)
+      at declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7350:16)
+      at checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7346:12)
+      at checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7287:12)
+      at finishImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13735:10)
+      at parseNamedImportSpecifiers (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13879:36)
+      at parseImportSpecifiersAndAfter (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13712:37)
+      at parseImport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9073:26)
+
+9:39:45 AM [vite] Pre-transform error:   × the name `Badge` is defined multiple times
+    ╭─[/home/runner/workspace/src/pages/Dashboard.tsx:8:1]
+  5 │ import { CitySelector } from "@/components/pollution/CitySelector";
+  6 │ import { PollutionAlert } from "@/components/pollution/PollutionAlert";
+  7 │ import { ChallengeCard } from "@/components/challenges/ChallengeCard";
+  8 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── previous definition of `Badge` here
+  9 │ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+ 10 │ import { Skeleton } from "@/components/ui/skeleton";
+ 11 │ import { Button } from "@/components/ui/button";
+ 12 │ import { Camera, ChartLine, MapPin, RefreshCw } from "lucide-react";
+ 13 │ import { EcoChallenge } from "@/types";
+ 14 │ import { useState } from "react";
+ 15 │ import { useToast } from "@/components/ui/use-toast";
+ 16 │ import { Link } from "react-router-dom";
+ 17 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── `Badge` redefined here
+ 18 │ 
+ 19 │ const Dashboard = () => {
+ 20 │   const { 
+    ╰────
+
+Error processing file src/pages/Dashboard.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "VarRedeclaration",
+        loc: Position {
+  line: 17,
+  column: 9,
+  index: 865,
+},
+        pos: 865,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6913:21)
+      at declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7350:16)
+      at checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7346:12)
+      at checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7287:12)
+      at finishImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13735:10)
+      at parseNamedImportSpecifiers (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13879:36)
+      at parseImportSpecifiersAndAfter (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13712:37)
+      at parseImport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9073:26)
+
+9:39:47 AM [vite] Internal server error:   × the name `Badge` is defined multiple times
+    ╭─[/home/runner/workspace/src/pages/Dashboard.tsx:8:1]
+  5 │ import { CitySelector } from "@/components/pollution/CitySelector";
+  6 │ import { PollutionAlert } from "@/components/pollution/PollutionAlert";
+  7 │ import { ChallengeCard } from "@/components/challenges/ChallengeCard";
+  8 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── previous definition of `Badge` here
+  9 │ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+ 10 │ import { Skeleton } from "@/components/ui/skeleton";
+ 11 │ import { Button } from "@/components/ui/button";
+ 12 │ import { Camera, ChartLine, MapPin, RefreshCw } from "lucide-react";
+ 13 │ import { EcoChallenge } from "@/types";
+ 14 │ import { useState } from "react";
+ 15 │ import { useToast } from "@/components/ui/use-toast";
+ 16 │ import { Link } from "react-router-dom";
+ 17 │ import { Badge } from "@/components/ui/badge";
+    ·          ──┬──
+    ·            ╰── `Badge` redefined here
+ 18 │ 
+ 19 │ const Dashboard = () => {
+ 20 │   const { 
+    ╰────
+
+  Plugin: vite:react-swc
+  File: /home/runner/workspace/src/pages/Dashboard.tsx:8:1
+  126|        </div>
+  127|        
+  128|        {pollutionData?.aqi && pollutionData.aqi.aqi > 150 && (
+     |        ^
+  129|          <PollutionAlert aqi={pollutionData.aqi.aqi} />
+  130|        )}
+^C
