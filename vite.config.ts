@@ -9,8 +9,8 @@ export default defineConfig(({ mode }) => ({
     host: '0.0.0.0',
     port: 5000,
     hmr: {
-      clientPort: 443,
-      protocol: 'wss'
+      clientPort: 5000,
+      host: '0.0.0.0'
     }
   },
   plugins: [
@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
+      "@": path.resolve(__dirname, "./src")
+    }
+  }
 }));
