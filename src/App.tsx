@@ -37,7 +37,6 @@ const App = () => (
                 <Route path="leaderboard" element={<Leaderboard />} />
                 <Route path="trends" element={<Trends />} />
                 <Route path="news" element={<News />} />
-                <Route path="settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

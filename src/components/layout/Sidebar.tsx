@@ -8,7 +8,6 @@ import {
   Users, 
   ChartLine, 
   Newspaper, 
-  Settings,
   Leaf
 } from "lucide-react";
 
@@ -26,7 +25,6 @@ const Sidebar = ({ open }: SidebarProps) => {
     { name: "Pollution Hotspots", path: "/pollution-alerts", icon: Users },
     { name: "Trends & Analysis", path: "/trends", icon: ChartLine },
     { name: "Eco News", path: "/news", icon: Newspaper },
-    { name: "Settings", path: "/settings", icon: Settings },
     { name: "Community", path: "/community", icon: Users } // Added Community link
   ];
 
