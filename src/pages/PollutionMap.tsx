@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { usePollution } from "@/contexts/PollutionContext";
 import { CitySelector } from "@/components/pollution/CitySelector";
@@ -9,26 +8,22 @@ import { getAQICategory, getWQICategory } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { InfoIcon, Layers, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import IndiaMap from "@/components/pollution/IndiaMap";
 
 const PollutionMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const { pollutionData, isLoading, selectedCity, cities, setSelectedCity } = usePollution();
   const [activeTab, setActiveTab] = useState<"aqi" | "wqi">("aqi");
 
-  // This is a placeholder for map implementation
-  // In a real project, we would integrate LeafletJS here
   useEffect(() => {
     if (!mapRef.current || !selectedCity) return;
     
-    // Initialize the map (this is where we would use Leaflet in a real implementation)
     console.log("Initializing map centered at", selectedCity.lat, selectedCity.lng);
     
-    // This is where we would render the pollution data on the map
     if (pollutionData) {
       console.log("Rendering pollution data on map:", pollutionData);
     }
     
-    // Cleanup function
     return () => {
       console.log("Cleaning up map");
     };
@@ -119,44 +114,21 @@ const PollutionMap = () => {
                   <Skeleton className="h-full w-full" />
                 </div>
               ) : (
-                <>
-                  {/* This is a placeholder for the map */}
-                  <div 
-                    ref={mapRef} 
-                    className="h-full w-full bg-[url('/map-placeholder.svg')] bg-cover bg-center relative"
-                  >
-                    {/* This is a placeholder for the pollution overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-eco-green opacity-30" />
-                    
-                    {/* Center marker */}
-                    {selectedCity && (
-                      <div 
-                        className="absolute rounded-full" 
-                        style={{
-                          left: "50%",
-                          top: "50%",
-                          transform: "translate(-50%, -50%)",
-                          width: "20px",
-                          height: "20px",
-                          backgroundColor: activeTab === "aqi" 
-                            ? getAQICategory(pollutionData?.aqi?.aqi || 0).color
-                            : getWQICategory(pollutionData?.wqi?.wqi || 0).color,
-                          boxShadow: "0 0 0 4px rgba(255,255,255,0.5)"
-                        }}
-                      />
-                    )}
-                    
-                    {/* Map info overlay */}
-                    <div className="absolute top-4 left-4 bg-white p-3 rounded-md shadow-md text-sm">
-                      <p className="font-medium">
-                        Viewing: {activeTab === "aqi" ? "Air Quality" : "Water Quality"}
-                      </p>
-                      <p className="text-muted-foreground text-xs">
-                        {selectedCity?.name || "No city selected"}
-                      </p>
-                    </div>
-                  </div>
-                </>
+                <IndiaMap
+                  center={[78.9629, 20.5937]}
+                  marker={
+                    selectedCity
+                      ? {
+                          lat: selectedCity.lat,
+                          lng: selectedCity.lng,
+                          color:
+                            activeTab === "aqi"
+                              ? getAQICategory(pollutionData?.aqi?.aqi || 0).color
+                              : getWQICategory(pollutionData?.wqi?.wqi || 0).color,
+                        }
+                      : undefined
+                  }
+                />
               )}
             </div>
           </Card>
