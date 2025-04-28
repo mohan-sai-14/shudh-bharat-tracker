@@ -14,7 +14,7 @@ const Profile = () => {
     name: "Rohan Kumar",
     email: "rohan.kumar@example.com",
     city: "Bengaluru",
-    ecoPoints: 3280,
+    ecoPoints: reportCount * 100,
     reportCount: 18,
     challengesCompleted: 9,
     badges: [
@@ -180,13 +180,9 @@ const Profile = () => {
                 <Camera className="mr-2 h-4 w-4" />
                 Your Reports
               </TabsTrigger>
-              <TabsTrigger value="challenges">
-                <Trophy className="mr-2 h-4 w-4" />
-                Completed Challenges
-              </TabsTrigger>
-              <TabsTrigger value="impact">
-                <BookOpen className="mr-2 h-4 w-4" />
-                Impact Summary
+              <TabsTrigger value="reports">
+                <Camera className="mr-2 h-4 w-4" />
+                Your Reports
               </TabsTrigger>
             </TabsList>
 
@@ -231,67 +227,7 @@ const Profile = () => {
               </Card>
             </TabsContent>
 
-            <TabsContent value="challenges" className="pt-4">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">Completed Eco Challenges</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {completedChallenges.map(challenge => (
-                      <div key={challenge.id} className="flex items-center justify-between p-3 border rounded-lg">
-                        <div>
-                          <div className="font-medium">{challenge.title}</div>
-                          <div className="text-sm text-muted-foreground">
-                            Completed on {formatDate(challenge.completedDate)}
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-bold text-eco-dark-green">
-                            +{challenge.points} pts
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="impact" className="pt-4">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">Your Environmental Impact</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 border rounded-lg">
-                      <div className="text-sm text-muted-foreground">Carbon Reduction</div>
-                      <div className="text-2xl font-bold">~480 kg</div>
-                      <div className="text-xs text-muted-foreground">CO₂ equivalent</div>
-                    </div>
-                    
-                    <div className="p-4 border rounded-lg">
-                      <div className="text-sm text-muted-foreground">Water Saved</div>
-                      <div className="text-2xl font-bold">~3,200 L</div>
-                      <div className="text-xs text-muted-foreground">Through conservation</div>
-                    </div>
-                    
-                    <div className="p-4 border rounded-lg">
-                      <div className="text-sm text-muted-foreground">Waste Reduced</div>
-                      <div className="text-2xl font-bold">~85 kg</div>
-                      <div className="text-xs text-muted-foreground">Through recycling</div>
-                    </div>
-                    
-                    <div className="p-4 border rounded-lg">
-                      <div className="text-sm text-muted-foreground">Trees Planted</div>
-                      <div className="text-2xl font-bold">5</div>
-                      <div className="text-xs text-muted-foreground">Through challenges</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+            
           </Tabs>
         </div>
       </div>
