@@ -37,6 +37,45 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
   const [mapConfigClosed, setMapConfigClosed] = useState(
     localStorage.getItem('mapConfigClosed') === 'true'
   );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<Location[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const searchLocation = async (query: string) => {
+    if (!query) {
+      setSearchResults([]);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const response = await fetch(
+        `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}+india&countrycode=in&limit=10&key=${process.env.OPENCAGE_API_KEY}`
+      );
+      const data = await response.json();
+
+      const locations = data.results
+        .filter((result: any) => result.components._type === "city" || result.components._type === "town")
+        .map((result: any) => ({
+          name: result.formatted.split(',')[0],
+          lat: result.geometry.lat,
+          lng: result.geometry.lng
+        }));
+
+      setSearchResults(locations);
+    } catch (error) {
+      console.error('Error searching locations:', error);
+    }
+    setIsSearching(false);
+  };
+
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      searchLocation(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(debounceTimer);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (!mapContainer.current || !popupContainer.current || !mapConfigClosed) return;
@@ -114,7 +153,7 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
       // Determine which value and color to use based on active tab
       const value = activeTab === 'aqi' ? location.aqi : location.wqi;
       const color = activeTab === 'aqi' ? location.aqiColor : location.wqiColor;
-      
+
       // Style for the marker
       const markerStyle = new Style({
         image: new Circle({
@@ -168,11 +207,11 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
     // Add click interaction
     map.current.on('click', (event) => {
       const feature = map.current?.forEachFeatureAtPixel(event.pixel, feature => feature);
-      
+
       if (feature) {
         const location = feature.get('location') as Location;
         const coordinates = (feature.getGeometry() as Point).getCoordinates();
-        
+
         // Show popup with location info
         if (popupContainer.current && overlay.current) {
           popupContainer.current.innerHTML = `
@@ -185,7 +224,7 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
             </div>
           `;
           overlay.current.setPosition(coordinates);
-          
+
           // Call the callback if provided
           if (onMarkerClick) {
             onMarkerClick(location);
@@ -214,6 +253,17 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
           className="absolute z-10 transform -translate-x-1/2 pointer-events-auto" 
           style={{display: 'none'}}
         />
+        <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search locations..." />
+        {isSearching && <p>Searching...</p>}
+        {searchResults.length > 0 && (
+          <ul>
+            {searchResults.map(result => (
+              <li key={result.name} onClick={() => {
+                  // Add logic to center map on selected location
+                }}>{result.name}</li>
+            ))}
+          </ul>
+        )}
       </div>
     </>
   );

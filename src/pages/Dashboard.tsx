@@ -175,17 +175,72 @@ const Dashboard = () => {
       </div>
       
       <h2 className="text-2xl font-bold text-eco-dark-green mt-12">
-        Featured Eco Challenges
+        Pollution Level Guidelines
       </h2>
       <div className="grid gap-6 md:grid-cols-2">
-        {featuredChallenges.map(challenge => (
-          <ChallengeCard 
-            key={challenge.id} 
-            challenge={challenge}
-            onAccept={handleChallengeAccept}
-            onComplete={handleChallengeComplete}
-          />
-        ))}
+        <Card>
+          <CardHeader>
+            <CardTitle>Air Quality Index (AQI) Levels</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between p-2 bg-green-100 rounded">
+                <span>Good (0-50)</span>
+                <Badge className="bg-green-500">Safe</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-yellow-100 rounded">
+                <span>Moderate (51-100)</span>
+                <Badge className="bg-yellow-500">Acceptable</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-orange-100 rounded">
+                <span>Unhealthy for Sensitive Groups (101-150)</span>
+                <Badge className="bg-orange-500">Caution</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-red-100 rounded">
+                <span>Unhealthy (151-200)</span>
+                <Badge className="bg-red-500">Harmful</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-purple-100 rounded">
+                <span>Very Unhealthy (201-300)</span>
+                <Badge className="bg-purple-500">Very Harmful</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-[#7D1919]/20 rounded">
+                <span>Hazardous (301+)</span>
+                <Badge className="bg-[#7D1919]">Severe</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Water Quality Index (WQI) Levels</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between p-2 bg-green-100 rounded">
+                <span>Excellent (90-100)</span>
+                <Badge className="bg-green-500">Safe</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-blue-100 rounded">
+                <span>Good (70-90)</span>
+                <Badge className="bg-blue-500">Safe</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-yellow-100 rounded">
+                <span>Fair (50-70)</span>
+                <Badge className="bg-yellow-500">Moderate</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-orange-100 rounded">
+                <span>Marginal (25-50)</span>
+                <Badge className="bg-orange-500">Poor</Badge>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-red-100 rounded">
+                <span>Poor (0-25)</span>
+                <Badge className="bg-red-500">Unsafe</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
