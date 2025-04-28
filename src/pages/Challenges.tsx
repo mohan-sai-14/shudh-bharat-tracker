@@ -1,176 +1,171 @@
 
-import { useState } from "react";
-import { ChallengeCard } from "@/components/challenges/ChallengeCard";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/components/ui/use-toast";
-import { EcoChallenge } from "@/types";
 import { Badge } from "@/components/ui/badge";
-import { ChevronDown } from "lucide-react";
+import { PollutionHotspot } from "@/types";
+import { AlertTriangle, MapPin, Bell, BellOff } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
-const Challenges = () => {
+const Hotspots = () => {
+  const [hotspots, setHotspots] = useState<PollutionHotspot[]>([]);
+  const [notifications, setNotifications] = useState(false);
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState<"all" | "active" | "completed">("all");
-  const [challenges] = useState<EcoChallenge[]>([
-    {
-      id: "1",
-      title: "Plant 5 Trees",
-      description: "Help increase green cover by planting trees in your neighborhood.",
-      points: 500,
-      participants: 1245,
-      difficulty: "Medium",
-      duration: "30 days",
-      startDate: "2025-04-15",
-      endDate: "2025-05-15",
-      type: "Individual",
-      isActive: true,
-      completedBy: []
-    },
-    {
-      id: "2",
-      title: "Zero Plastic Week",
-      description: "Eliminate all single-use plastics from your daily routine.",
-      points: 300,
-      participants: 857,
-      difficulty: "Hard",
-      duration: "7 days",
-      startDate: "2025-04-20",
-      endDate: "2025-04-27",
-      type: "Individual",
-      isActive: true,
-      completedBy: []
-    },
-    {
-      id: "3",
-      title: "Community Clean-up Drive",
-      description: "Organize a community clean-up event in your neighborhood or local park.",
-      points: 750,
-      participants: 342,
-      difficulty: "Medium",
-      duration: "1 day",
-      startDate: "2025-04-28",
-      endDate: "2025-04-28",
-      type: "Community",
-      isActive: true,
-      completedBy: []
-    },
-    {
-      id: "4",
-      title: "Water Conservation Week",
-      description: "Reduce your daily water consumption by at least 20%.",
-      points: 400,
-      participants: 623,
-      difficulty: "Medium",
-      duration: "7 days",
-      startDate: "2025-05-01",
-      endDate: "2025-05-07",
-      type: "Individual",
-      isActive: true,
-      completedBy: []
-    },
-    {
-      id: "5",
-      title: "Go Car-Free",
-      description: "Use only public transportation, cycling, or walking for a full week.",
-      points: 350,
-      participants: 512,
-      difficulty: "Hard",
-      duration: "7 days",
-      startDate: "2025-05-10",
-      endDate: "2025-05-17",
-      type: "Individual",
-      isActive: true,
-      completedBy: []
-    },
-    {
-      id: "6",
-      title: "E-Waste Collection Drive",
-      description: "Collect and properly dispose of electronic waste from your community.",
-      points: 600,
-      participants: 218,
-      difficulty: "Hard",
-      duration: "14 days",
-      startDate: "2025-05-15",
-      endDate: "2025-05-29",
-      type: "Community",
-      isActive: true,
-      completedBy: []
+
+  useEffect(() => {
+    // Simulated data - replace with actual API integration
+    const fetchHotspots = async () => {
+      try {
+        // TODO: Replace with actual API calls
+        const mockHotspots: PollutionHotspot[] = [
+          {
+            id: "1",
+            location: "Anand Vihar, Delhi",
+            lat: 28.6469,
+            lng: 77.3161,
+            aqi: 195,
+            wqi: 155,
+            severity: "Critical",
+            description: "Industrial and traffic pollution hotspot",
+            recommendations: [
+              "Wear N95 masks when outdoors",
+              "Avoid outdoor activities",
+              "Use air purifiers indoors"
+            ]
+          },
+          // Add more hotspots...
+        ];
+        setHotspots(mockHotspots);
+      } catch (error) {
+        console.error("Error fetching hotspots:", error);
+      }
+    };
+
+    fetchHotspots();
+  }, []);
+
+  const toggleNotifications = () => {
+    if (!notifications) {
+      // Request notification permission
+      if ("Notification" in window) {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            setNotifications(true);
+            toast({
+              title: "Notifications Enabled",
+              description: "You will receive alerts when near pollution hotspots.",
+              duration: 3000,
+            });
+          }
+        });
+      }
+    } else {
+      setNotifications(false);
+      toast({
+        title: "Notifications Disabled",
+        description: "You will no longer receive pollution alerts.",
+        duration: 3000,
+      });
     }
-  ]);
-  
-  const handleChallengeAccept = (challenge: EcoChallenge) => {
-    toast({
-      title: "Challenge Accepted!",
-      description: `You've accepted the "${challenge.title}" challenge. Good luck!`,
-      duration: 3000,
-    });
   };
-  
-  const handleChallengeComplete = (challenge: EcoChallenge) => {
-    toast({
-      title: "Challenge Completed!",
-      description: `Congratulations! You've earned ${challenge.points} eco-points.`,
-      duration: 3000,
-    });
+
+  const getSeverityColor = (severity: PollutionHotspot['severity']) => {
+    switch (severity) {
+      case "High": return "bg-orange-100 text-orange-800";
+      case "Critical": return "bg-red-100 text-red-800";
+      case "Emergency": return "bg-purple-100 text-purple-800";
+      default: return "bg-gray-100 text-gray-800";
+    }
   };
-  
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-eco-dark-green">
-          Eco Challenges
-        </h1>
-        <p className="text-muted-foreground">
-          Join challenges to earn eco-points and make a difference
-        </p>
-      </div>
-      
-      <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-        <Tabs 
-          defaultValue="all" 
-          className="w-full"
-          onValueChange={(value) => setActiveTab(value as "all" | "active" | "completed")}
-        >
-          <TabsList>
-            <TabsTrigger value="all">All Challenges</TabsTrigger>
-            <TabsTrigger value="active">Active</TabsTrigger>
-            <TabsTrigger value="completed">Completed</TabsTrigger>
-          </TabsList>
-        </Tabs>
-        
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            Filter
-            <ChevronDown className="ml-2 h-4 w-4" />
-          </Button>
+      <div className="flex justify-between items-start">
+        <div>
+          <h1 className="text-3xl font-bold text-eco-dark-green">
+            Pollution Hotspots
+          </h1>
+          <p className="text-muted-foreground">
+            Critical pollution areas requiring immediate attention
+          </p>
         </div>
+        
+        <Button
+          variant={notifications ? "destructive" : "default"}
+          onClick={toggleNotifications}
+        >
+          {notifications ? (
+            <>
+              <BellOff className="mr-2 h-4 w-4" />
+              Disable Alerts
+            </>
+          ) : (
+            <>
+              <Bell className="mr-2 h-4 w-4" />
+              Enable Alerts
+            </>
+          )}
+        </Button>
       </div>
-      
-      <div className="flex flex-wrap gap-2">
-        <Badge variant="outline" className="cursor-pointer">All</Badge>
-        <Badge variant="secondary" className="cursor-pointer">Individual</Badge>
-        <Badge variant="outline" className="cursor-pointer">Community</Badge>
-        <Badge variant="outline" className="cursor-pointer">Easy</Badge>
-        <Badge variant="outline" className="cursor-pointer">Medium</Badge>
-        <Badge variant="outline" className="cursor-pointer">Hard</Badge>
-      </div>
-      
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {challenges.map((challenge) => (
-          <ChallengeCard
-            key={challenge.id}
-            challenge={challenge}
-            onAccept={handleChallengeAccept}
-            onComplete={handleChallengeComplete}
-          />
+
+      <div className="grid gap-6">
+        {hotspots.map(hotspot => (
+          <Card key={hotspot.id} className="overflow-hidden">
+            <div 
+              className="h-1.5" 
+              style={{ 
+                backgroundColor: hotspot.severity === "Emergency" ? "#7D1919" :
+                               hotspot.severity === "Critical" ? "#F44336" :
+                               "#FF9800"
+              }} 
+            />
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  {hotspot.location}
+                </CardTitle>
+                <Badge className={getSeverityColor(hotspot.severity)}>
+                  {hotspot.severity}
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-3 bg-red-50 rounded-lg">
+                    <div className="text-sm text-gray-600">Air Quality</div>
+                    <div className="text-2xl font-bold text-red-600">
+                      {hotspot.aqi}
+                    </div>
+                  </div>
+                  <div className="text-center p-3 bg-blue-50 rounded-lg">
+                    <div className="text-sm text-gray-600">Water Quality</div>
+                    <div className="text-2xl font-bold text-blue-600">
+                      {hotspot.wqi}
+                    </div>
+                  </div>
+                </div>
+
+                <Alert>
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTitle>Safety Recommendations</AlertTitle>
+                  <AlertDescription>
+                    <ul className="list-disc list-inside space-y-1 mt-2">
+                      {hotspot.recommendations.map((rec, index) => (
+                        <li key={index}>{rec}</li>
+                      ))}
+                    </ul>
+                  </AlertDescription>
+                </Alert>
+              </div>
+            </CardContent>
+          </Card>
         ))}
-      </div>
-      
-      <div className="flex justify-center mt-8">
-        <Button variant="outline">Load More Challenges</Button>
       </div>
     </div>
   );
 };
 
-export default Challenges;
+export default Hotspots;

@@ -43,7 +43,28 @@ export interface PollutionData {
   aqi: AQIData;
   wqi: WQIData;
   city: string;
+  state: string;
   timestamp: string;
+}
+
+export interface StatePollutionData {
+  state: string;
+  averageAQI: number;
+  averageWQI: number;
+  hotspots: PollutionHotspot[];
+  lastUpdated: string;
+}
+
+export interface PollutionHotspot {
+  id: string;
+  location: string;
+  lat: number;
+  lng: number;
+  aqi: number;
+  wqi: number;
+  severity: 'High' | 'Critical' | 'Emergency';
+  description: string;
+  recommendations: string[];
 }
 
 // Pollution Report Types
