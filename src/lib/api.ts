@@ -133,7 +133,8 @@ export const fetchWQIData = async (lat: number, lon: number): Promise<WQIData> =
 };
 
 export const fetchStatePollutionData = async (): Promise<StatePollutionData[]> => {
-  const allStates = [
+  try {
+    const allStates = [
     { name: "Delhi", lat: 28.6139, lng: 77.2090 },
     { name: "Maharashtra", lat: 19.7515, lng: 75.7139 },
     { name: "Uttar Pradesh", lat: 26.8467, lng: 80.9462 },

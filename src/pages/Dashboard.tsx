@@ -13,6 +13,7 @@ import { EcoChallenge } from "@/types";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 const Dashboard = () => {
   const { 

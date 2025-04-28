@@ -78,7 +78,7 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
   }, [searchQuery]);
 
   useEffect(() => {
-    if (!mapContainer.current || !popupContainer.current || !mapConfigClosed) return;
+    if (!mapContainer.current || !popupContainer.current) return;
 
     // Define India bounds
     const indiaBounds = [

@@ -234,7 +234,7 @@ const PollutionMap = () => {
             </div>
             
             <div className="h-[60vh] bg-slate-100 relative">
-              {isLoading ? (
+              {false ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Skeleton className="h-full w-full" />
                 </div>
