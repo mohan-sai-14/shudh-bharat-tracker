@@ -15,6 +15,7 @@ import News from "./pages/News";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import { PollutionProvider } from "./contexts/PollutionContext";
+import Community from "./pages/Community"; // Import the Community page component
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
                 <Route index element={<Dashboard />} />
                 <Route path="map" element={<PollutionMap />} />
                 <Route path="report" element={<ReportPollution />} />
+                <Route path="community" element={<Community />} /> {/* Added Community route */}
                 <Route path="challenges" element={<Challenges />} />
                 <Route path="leaderboard" element={<Leaderboard />} />
                 <Route path="trends" element={<Trends />} />

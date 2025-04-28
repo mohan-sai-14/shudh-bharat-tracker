@@ -31,6 +31,15 @@ export const PollutionProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const { toast } = useToast();
   
   // Popular Indian cities with coordinates
+  const states = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", 
+    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", 
+    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", 
+    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", 
+    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
+    "Delhi", // Union Territory but major pollution center
+  ];
+
   const cities: City[] = [
     // Northern India
     { name: "Delhi", lat: 28.6139, lng: 77.2090 },
