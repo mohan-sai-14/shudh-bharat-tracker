@@ -164,6 +164,23 @@ export const getWQICategory = (wqi: number): {category: string, color: string} =
   }
 };
 
+// Add health message function for WQI
+export const getWQIHealthMessage = (wqi: number): string => {
+  if (wqi <= 50) {
+    return "Water quality is excellent. Safe for drinking and all activities.";
+  } else if (wqi <= 100) {
+    return "Water quality is good. Safe for most uses with basic treatment.";
+  } else if (wqi <= 150) {
+    return "Water quality is fair. May need advanced treatment for drinking.";
+  } else if (wqi <= 200) {
+    return "Water quality is poor. Not recommended for direct contact.";
+  } else if (wqi <= 300) {
+    return "Water quality is very poor. Avoid all contact with water.";
+  } else {
+    return "Water is unsuitable for any use. Severe contamination present.";
+  }
+};
+
 // Get AQI health impact message
 export const getAQIHealthMessage = (aqi: number): string => {
   if (aqi <= 50) {

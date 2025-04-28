@@ -13,6 +13,7 @@ import { EcoChallenge } from "@/types";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 import { Badge } from "@/components/ui/badge";
 
@@ -221,18 +222,21 @@ const Dashboard = () => {
           <CardContent>
             <div className="space-y-2">
               <div className="flex items-center justify-between p-2 bg-green-100 rounded">
-                <span>Excellent (90-100)</span>
-                <Badge className="bg-green-500">Safe</Badge>
+                <span>Excellent (0-50)</span>
+                <Badge variant="outline" className="bg-green-500 text-white">Safe</Badge>
               </div>
-              <div className="flex items-center justify-between p-2 bg-blue-100 rounded">
-                <span>Good (70-90)</span>
-                <Badge className="bg-blue-500">Safe</Badge>
+              <div className="flex items-center justify-between p-2 bg-lime-100 rounded">
+                <span>Good (51-100)</span>
+                <Badge variant="outline" className="bg-lime-500 text-white">Safe</Badge>
               </div>
               <div className="flex items-center justify-between p-2 bg-yellow-100 rounded">
-                <span>Fair (50-70)</span>
-                <Badge className="bg-yellow-500">Moderate</Badge>
+                <span>Fair (101-150)</span>
+                <Badge variant="outline" className="bg-yellow-500">Moderate</Badge>
               </div>
               <div className="flex items-center justify-between p-2 bg-orange-100 rounded">
+                <span>Poor (151-200)</span>
+                <Badge variant="outline" className="bg-orange-500">Poor</Badge>
+              </div>
                 <span>Marginal (25-50)</span>
                 <Badge className="bg-orange-500">Poor</Badge>
               </div>
