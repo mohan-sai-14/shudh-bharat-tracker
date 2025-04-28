@@ -1,4 +1,3 @@
-
 import { AQIData, WQIData } from '@/types';
 
 // Simulate fetching AQI data from OpenWeatherMap
@@ -6,15 +5,21 @@ export const fetchAQIData = async (lat: number, lon: number): Promise<AQIData> =
   try {
     // In a real implementation, this would call the OpenWeatherMap API
     // For now, we'll simulate a response with realistic data
-    await delay(800); // Simulate network delay
+    await delay(200); // Reduced delay for multiple location fetching
     
     const pollutionLevel = Math.random();
     let aqi;
     let components;
     
+    // Use location to add some predictable variation
+    const locationFactor = (lat * 10 + lon) % 10;
+    const baseAQI = locationFactor < 3 ? 30 : 
+                    locationFactor < 6 ? 80 : 
+                    locationFactor < 8 ? 120 : 180;
+    
     if (pollutionLevel < 0.3) {
       // Good air quality
-      aqi = Math.floor(Math.random() * 50) + 1;
+      aqi = Math.floor(Math.random() * 30) + baseAQI;
       components = {
         pm2_5: Math.random() * 10,
         pm10: Math.random() * 20,
@@ -25,7 +30,7 @@ export const fetchAQIData = async (lat: number, lon: number): Promise<AQIData> =
       };
     } else if (pollutionLevel < 0.7) {
       // Moderate air quality
-      aqi = Math.floor(Math.random() * 50) + 51;
+      aqi = Math.floor(Math.random() * 30) + baseAQI;
       components = {
         pm2_5: 10 + Math.random() * 20,
         pm10: 20 + Math.random() * 30,
@@ -36,7 +41,7 @@ export const fetchAQIData = async (lat: number, lon: number): Promise<AQIData> =
       };
     } else {
       // Poor air quality
-      aqi = Math.floor(Math.random() * 100) + 101;
+      aqi = Math.floor(Math.random() * 50) + baseAQI;
       components = {
         pm2_5: 30 + Math.random() * 70,
         pm10: 50 + Math.random() * 100,
@@ -62,15 +67,20 @@ export const fetchAQIData = async (lat: number, lon: number): Promise<AQIData> =
 export const fetchWQIData = async (lat: number, lon: number): Promise<WQIData> => {
   try {
     // Simulate network delay
-    await delay(600);
+    await delay(200); // Reduced delay for multiple location fetching
+    
+    // Use location to add some predictable variation
+    const locationFactor = (lat * 10 + lon) % 10;
+    const baseWQI = locationFactor < 3 ? 40 : 
+                    locationFactor < 6 ? 70 : 
+                    locationFactor < 8 ? 130 : 160;
     
     const qualityLevel = Math.random();
-    let wqi;
+    let wqi = Math.floor(Math.random() * 40) + baseWQI;
     let components;
     
-    if (qualityLevel < 0.4) {
+    if (wqi <= 50) {
       // Good water quality
-      wqi = Math.floor(Math.random() * 50) + 1;
       components = {
         ph: 6.5 + Math.random() * 1.5,
         dissolved_oxygen: 7 + Math.random() * 3,
@@ -79,9 +89,8 @@ export const fetchWQIData = async (lat: number, lon: number): Promise<WQIData> =
         nitrates: Math.random() * 5,
         fecal_coliform: Math.random() * 10
       };
-    } else if (qualityLevel < 0.8) {
+    } else if (wqi <= 100) {
       // Moderate water quality
-      wqi = Math.floor(Math.random() * 50) + 51;
       components = {
         ph: 6 + Math.random() * 3,
         dissolved_oxygen: 5 + Math.random() * 2,
@@ -92,7 +101,6 @@ export const fetchWQIData = async (lat: number, lon: number): Promise<WQIData> =
       };
     } else {
       // Poor water quality
-      wqi = Math.floor(Math.random() * 100) + 101;
       components = {
         ph: 5 + Math.random() * 4,
         dissolved_oxygen: 2 + Math.random() * 3,
