@@ -1,4 +1,3 @@
-
 import { usePollution } from "@/contexts/PollutionContext";
 import { AQICard } from "@/components/pollution/AQICard";
 import { WQICard } from "@/components/pollution/WQICard";
@@ -25,10 +24,10 @@ const Dashboard = () => {
     selectedCity, 
     setSelectedCity 
   } = usePollution();
-  
+
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
-  
+
   const featuredChallenges: EcoChallenge[] = [
     {
       id: "1",
@@ -59,26 +58,26 @@ const Dashboard = () => {
       completedBy: []
     }
   ];
-  
+
   const handleRefresh = async () => {
     if (!selectedCity) return;
-    
+
     setIsRefreshing(true);
     await fetchPollutionData(selectedCity.name);
     setIsRefreshing(false);
-    
+
     toast({
       title: "Data Refreshed",
       description: `Latest pollution data for ${selectedCity.name} has been loaded.`,
       duration: 3000,
     });
   };
-  
+
   const handleCityChange = async (city: typeof cities[0]) => {
     setSelectedCity(city);
     await fetchPollutionData(city.name);
   };
-  
+
   const handleChallengeAccept = (challenge: EcoChallenge) => {
     toast({
       title: "Challenge Accepted!",
@@ -86,7 +85,7 @@ const Dashboard = () => {
       duration: 3000,
     });
   };
-  
+
   const handleChallengeComplete = (challenge: EcoChallenge) => {
     toast({
       title: "Challenge Completed!",
@@ -94,7 +93,7 @@ const Dashboard = () => {
       duration: 3000,
     });
   };
-  
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -106,7 +105,7 @@ const Dashboard = () => {
             Real-time pollution tracking and eco-challenges
           </p>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <CitySelector 
             cities={cities}
@@ -123,11 +122,11 @@ const Dashboard = () => {
           </Button>
         </div>
       </div>
-      
+
       {pollutionData?.aqi && pollutionData.aqi.aqi > 150 && (
         <PollutionAlert aqi={pollutionData.aqi.aqi} />
       )}
-      
+
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {isLoading || !pollutionData ? (
           <>
@@ -173,7 +172,7 @@ const Dashboard = () => {
           </>
         )}
       </div>
-      
+
       <h2 className="text-2xl font-bold text-eco-dark-green mt-12">
         Pollution Level Guidelines
       </h2>
@@ -211,7 +210,7 @@ const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
             <CardTitle>Water Quality Index (WQI) Levels</CardTitle>

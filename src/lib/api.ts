@@ -1,57 +1,88 @@
-
 import { AQIData, WQIData, PollutionHotspot, StatePollutionData } from '@/types';
 
 // Real OpenAQ API implementation with error handling
-export const fetchAQIData = async (lat: number, lon: number): Promise<AQIData> => {
+export const fetchAQIData = async (lat: number, lng: number): Promise<AQIData> => {
   try {
-    const radius = 25; // 25km radius
-    const baseUrl = 'https://api.openaq.org/v2/locations';
-    const url = `${baseUrl}?coordinates=${lat},${lon}&radius=${radius}&limit=1&order_by=lastUpdated`;
-
-    const response = await fetch(url, {
+    const response = await fetch(`https://api.openaq.org/v2/latest?coordinates=${lat},${lng}&radius=50000&limit=1`, {
       headers: {
-        'accept': 'application/json',
-        'X-API-Key': 'bebeb02e471dd66dec810c97ac5afea40af6af63b9453ae81683496b6973ba0e'
+        'Authorization': 'Bearer bebeb02e471dd66dec810c97ac5afea40af6af63b9453ae81683496b6973ba0e'
       }
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
     const data = await response.json();
 
-    if (!data.results || data.results.length === 0) {
-      // Return simulated data if no real data available
-      return simulateAQIData(lat, lon);
+    if (data.results && data.results.length > 0) {
+      const measurements = data.results[0].measurements;
+      const components: AQIComponents = {
+        pm2_5: measurements.find((m: any) => m.parameter === 'pm25')?.value || 0,
+        pm10: measurements.find((m: any) => m.parameter === 'pm10')?.value || 0,
+        no2: measurements.find((m: any) => m.parameter === 'no2')?.value || 0,
+        so2: measurements.find((m: any) => m.parameter === 'so2')?.value || 0,
+        co: measurements.find((m: any) => m.parameter === 'co')?.value || 0,
+        o3: measurements.find((m: any) => m.parameter === 'o3')?.value || 0
+      };
+
+      // Calculate AQI based on PM2.5 and PM10
+      const aqi = Math.max(calculateAQI(components.pm2_5, 'pm2_5'), calculateAQI(components.pm10, 'pm10'));
+
+      return {
+        aqi,
+        components,
+        timestamp: new Date().toISOString()
+      };
     }
 
-    const location = data.results[0];
-    const parameters = location.parameters || [];
-
-    const components = {
-      pm2_5: parameters.find((p: any) => p.parameter === 'pm25')?.lastValue || 0,
-      pm10: parameters.find((p: any) => p.parameter === 'pm10')?.lastValue || 0,
-      no2: parameters.find((p: any) => p.parameter === 'no2')?.lastValue || 0,
-      so2: parameters.find((p: any) => p.parameter === 'so2')?.lastValue || 0,
-      co: parameters.find((p: any) => p.parameter === 'co')?.lastValue || 0,
-      o3: parameters.find((p: any) => p.parameter === 'o3')?.lastValue || 0
-    };
-
-    const aqi = calculateAQI(components);
-
-    return {
-      aqi,
-      components,
-      timestamp: new Date().toISOString()
-    };
+    throw new Error('No data available');
   } catch (error) {
     console.error('Error fetching AQI data:', error);
-    return simulateAQIData(lat, lon);
+    // Fallback to simulated data if API fails
+    return {
+      aqi: Math.floor(Math.random() * 300) + 50,
+      components: {
+        pm2_5: Math.random() * 100,
+        pm10: Math.random() * 150,
+        no2: Math.random() * 100,
+        so2: Math.random() * 50,
+        co: Math.random() * 10,
+        o3: Math.random() * 100
+      },
+      timestamp: new Date().toISOString()
+    };
   }
 };
 
-const calculateAQI = (components: any): number => {
+const calculateAQI = (concentration: number, pollutant: 'pm2_5' | 'pm10'): number => {
+  const breakpoints = {
+    pm2_5: [
+      { min: 0, max: 12, aqiMin: 0, aqiMax: 50 },
+      { min: 12.1, max: 35.4, aqiMin: 51, aqiMax: 100 },
+      { min: 35.5, max: 55.4, aqiMin: 101, aqiMax: 150 },
+      { min: 55.5, max: 150.4, aqiMin: 151, aqiMax: 200 },
+      { min: 150.5, max: 250.4, aqiMin: 201, aqiMax: 300 },
+      { min: 250.5, max: 500, aqiMin: 301, aqiMax: 500 }
+    ],
+    pm10: [
+      { min: 0, max: 54, aqiMin: 0, aqiMax: 50 },
+      { min: 55, max: 154, aqiMin: 51, aqiMax: 100 },
+      { min: 155, max: 254, aqiMin: 101, aqiMax: 150 },
+      { min: 255, max: 354, aqiMin: 151, aqiMax: 200 },
+      { min: 355, max: 424, aqiMin: 201, aqiMax: 300 },
+      { min: 425, max: 604, aqiMin: 301, aqiMax: 500 }
+    ]
+  };
+
+  const bp = breakpoints[pollutant].find(
+    bp => concentration >= bp.min && concentration <= bp.max
+  ) || breakpoints[pollutant][breakpoints[pollutant].length - 1];
+
+  return Math.round(
+    ((bp.aqiMax - bp.aqiMin) / (bp.max - bp.min)) * 
+    (concentration - bp.min) + 
+    bp.aqiMin
+  );
+};
+
+const calculateAQI_old = (components: any): number => {
   // Basic AQI calculation based on PM2.5 and PM10
   const pm25Index = components.pm2_5 * 4.5;
   const pm10Index = components.pm10 * 2.5;
@@ -165,7 +196,7 @@ const generateHotspotsForState = async (
   for (let i = 0; i < numHotspots; i++) {
     const latOffset = (Math.random() - 0.5) * 2;
     const lngOffset = (Math.random() - 0.5) * 2;
-    
+
     const aqi = await fetchAQIData(baseLat + latOffset, baseLng + lngOffset);
     const wqi = await fetchWQIData(baseLat + latOffset, baseLng + lngOffset);
 
@@ -187,7 +218,7 @@ const generateHotspotsForState = async (
   return hotspots;
 };
 
-const generateHotspotDescription = (severity: string): string => {
+const generateHotspotDescription = async (severity: string): Promise<string> => {
   switch (severity) {
     case "Emergency":
       return "Critical pollution levels detected. Immediate action required.";
@@ -285,3 +316,12 @@ export const getWQIHealthMessage = (wqi: number): string => {
   if (wqi <= 300) return "Water is highly polluted. Avoid contact and do not consume without extensive treatment.";
   return "Water is severely contaminated. Not suitable for any use without intensive treatment.";
 };
+
+interface AQIComponents {
+  pm2_5: number;
+  pm10: number;
+  no2: number;
+  so2: number;
+  co: number;
+  o3: number;
+}

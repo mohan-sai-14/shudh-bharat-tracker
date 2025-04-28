@@ -1,58 +1,67 @@
+
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StatePollutionData } from "@/types";
 import { MapPin, AlertTriangle } from "lucide-react";
+import { fetchStatePollutionData } from "@/lib/api";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Leaderboard = () => {
   const [stateData, setStateData] = useState<StatePollutionData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"aqi" | "wqi">("aqi");
 
   useEffect(() => {
-    // Simulated data - replace with actual API calls to CPCB/IQAir
-    const fetchStateData = async () => {
-      setLoading(true);
+    const loadData = async () => {
       try {
-        // TODO: Replace with actual API integration
-        const mockData: StatePollutionData[] = [
-          {
-            state: "Delhi",
-            averageAQI: 165,
-            averageWQI: 145,
-            hotspots: [
-              {
-                id: "1",
-                location: "Anand Vihar",
-                lat: 28.6469,
-                lng: 77.3161,
-                aqi: 195,
-                wqi: 155,
-                severity: "Critical",
-                description: "Industrial and traffic pollution hotspot",
-                recommendations: ["Wear N95 masks", "Avoid outdoor activities"]
-              }
-            ],
-            lastUpdated: new Date().toISOString()
-          },
-          // Add more states...
-        ];
-        setStateData(mockData);
-      } catch (error) {
-        console.error("Error fetching state data:", error);
+        setLoading(true);
+        const data = await fetchStatePollutionData();
+        setStateData(data);
+      } catch (err) {
+        setError("Failed to load state pollution data");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    fetchStateData();
+    loadData();
+    // Refresh data every 5 minutes
+    const interval = setInterval(loadData, 300000);
+    return () => clearInterval(interval);
   }, []);
 
   const getStatusColor = (value: number) => {
-    if (value <= 50) return "text-green-600";
-    if (value <= 100) return "text-yellow-600";
-    if (value <= 150) return "text-orange-600";
-    return "text-red-600";
+    if (value <= 50) return "bg-green-100 text-green-800";
+    if (value <= 100) return "bg-yellow-100 text-yellow-800";
+    if (value <= 150) return "bg-orange-100 text-orange-800";
+    if (value <= 200) return "bg-red-100 text-red-800";
+    if (value <= 300) return "bg-purple-100 text-purple-800";
+    return "bg-gray-100 text-gray-800";
   };
+
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(10)].map((_, i) => (
+          <Skeleton key={i} className="h-16 w-full" />
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertTriangle className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -65,7 +74,7 @@ const Leaderboard = () => {
         </p>
       </div>
 
-      <Tabs defaultValue="aqi">
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "aqi" | "wqi")}>
         <TabsList>
           <TabsTrigger value="aqi">Air Quality (AQI)</TabsTrigger>
           <TabsTrigger value="wqi">Water Quality (WQI)</TabsTrigger>
@@ -98,7 +107,7 @@ const Leaderboard = () => {
                         <div className="flex items-center gap-2">
                           <span className="font-medium">{state.state}</span>
                           {state.hotspots.length > 0 && (
-                            <Badge variant="destructive">
+                            <Badge variant="destructive" className="text-xs">
                               <AlertTriangle className="h-3 w-3 mr-1" />
                               {state.hotspots.length} Hotspots
                             </Badge>
@@ -107,10 +116,10 @@ const Leaderboard = () => {
                       </div>
 
                       <div className="text-right">
-                        <div className={`font-bold ${getStatusColor(state.averageAQI)}`}>
+                        <Badge className={getStatusColor(state.averageAQI)}>
                           {state.averageAQI}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
+                        </Badge>
+                        <div className="text-xs text-muted-foreground mt-1">
                           Updated {new Date(state.lastUpdated).toLocaleTimeString()}
                         </div>
                       </div>
@@ -148,7 +157,7 @@ const Leaderboard = () => {
                         <div className="flex items-center gap-2">
                           <span className="font-medium">{state.state}</span>
                           {state.hotspots.length > 0 && (
-                            <Badge variant="destructive">
+                            <Badge variant="destructive" className="text-xs">
                               <AlertTriangle className="h-3 w-3 mr-1" />
                               {state.hotspots.length} Hotspots
                             </Badge>
@@ -157,10 +166,10 @@ const Leaderboard = () => {
                       </div>
 
                       <div className="text-right">
-                        <div className={`font-bold ${getStatusColor(state.averageWQI)}`}>
+                        <Badge className={getStatusColor(state.averageWQI)}>
                           {state.averageWQI}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
+                        </Badge>
+                        <div className="text-xs text-muted-foreground mt-1">
                           Updated {new Date(state.lastUpdated).toLocaleTimeString()}
                         </div>
                       </div>
