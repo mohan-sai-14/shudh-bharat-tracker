@@ -1,6 +1,6 @@
-import { AQIData, WQIData } from '@/types';
+import { AQIData, WQIData, PollutionHotspot, StatePollutionData } from '@/types';
 
-// Real OpenAQ API implementation
+// Real OpenAQ API implementation with error handling
 export const fetchAQIData = async (lat: number, lon: number): Promise<AQIData> => {
   try {
     const radius = 25; // 25km radius
@@ -15,28 +15,29 @@ export const fetchAQIData = async (lat: number, lon: number): Promise<AQIData> =
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch AQI data');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    const location = data.results[0];
 
-    if (!location || !location.parameters) {
+    if (!data.results || data.results.length === 0) {
       throw new Error('No air quality data available for this location');
     }
 
-    // Convert OpenAQ parameters to our format
+    const location = data.results[0];
+    const parameters = location.parameters || [];
+
     const components = {
-      pm2_5: location.parameters.find((p: any) => p.parameter === 'pm25')?.lastValue || 0,
-      pm10: location.parameters.find((p: any) => p.parameter === 'pm10')?.lastValue || 0,
-      no2: location.parameters.find((p: any) => p.parameter === 'no2')?.lastValue || 0,
-      so2: location.parameters.find((p: any) => p.parameter === 'so2')?.lastValue || 0,
-      co: location.parameters.find((p: any) => p.parameter === 'co')?.lastValue || 0,
-      o3: location.parameters.find((p: any) => p.parameter === 'o3')?.lastValue || 0
+      pm2_5: parameters.find((p: any) => p.parameter === 'pm25')?.lastValue || 0,
+      pm10: parameters.find((p: any) => p.parameter === 'pm10')?.lastValue || 0,
+      no2: parameters.find((p: any) => p.parameter === 'no2')?.lastValue || 0,
+      so2: parameters.find((p: any) => p.parameter === 'so2')?.lastValue || 0,
+      co: parameters.find((p: any) => p.parameter === 'co')?.lastValue || 0,
+      o3: parameters.find((p: any) => p.parameter === 'o3')?.lastValue || 0
     };
 
     // Calculate AQI using PM2.5 as primary indicator
-    const aqi = Math.round(components.pm2_5 * 4.5); // Simplified AQI calculation
+    const aqi = Math.round((components.pm2_5 * 4.5) + (components.pm10 * 2.5));
 
     return {
       aqi,
@@ -45,26 +46,23 @@ export const fetchAQIData = async (lat: number, lon: number): Promise<AQIData> =
     };
   } catch (error) {
     console.error('Error fetching AQI data:', error);
-    throw new Error('Failed to fetch AQI data');
+    throw new Error(`Failed to fetch AQI data: ${error.message}`);
   }
 };
 
-// Keep WQI data simulated but make it more realistic
+// WQI data with more realistic simulated values
 export const fetchWQIData = async (lat: number, lon: number): Promise<WQIData> => {
   try {
-    await delay(200);
-
-    // Use location to generate semi-random but consistent data
     const seed = Math.abs(Math.sin(lat * lon));
     const baseWQI = 30 + Math.floor(seed * 70);
 
     const components = {
-      ph: 6.5 + (seed * 2), // pH between 6.5 and 8.5
-      dissolved_oxygen: 6 + (seed * 4), // DO between 6 and 10 mg/L
-      turbidity: seed * 10, // 0-10 NTU
-      total_dissolved_solids: 200 + (seed * 300), // TDS between 200-500 mg/L
-      nitrates: seed * 5, // 0-5 mg/L
-      fecal_coliform: seed * 100 // 0-100 CFU/100mL
+      ph: 6.5 + (seed * 2),
+      dissolved_oxygen: 6 + (seed * 4),
+      turbidity: seed * 10,
+      total_dissolved_solids: 200 + (seed * 300),
+      nitrates: seed * 5,
+      fecal_coliform: seed * 100
     };
 
     return {
@@ -73,59 +71,110 @@ export const fetchWQIData = async (lat: number, lon: number): Promise<WQIData> =
       timestamp: new Date().toISOString()
     };
   } catch (error) {
-    console.error('Error fetching WQI data:', error);
-    throw new Error('Failed to fetch WQI data');
+    console.error('Error generating WQI data:', error);
+    throw new Error('Failed to generate WQI data');
   }
 };
 
-// Helper functions (unchanged)
+// Add state pollution data
+export const fetchStatePollutionData = async (): Promise<StatePollutionData[]> => {
+  const stateData: StatePollutionData[] = [
+    {
+      state: "Delhi",
+      averageAQI: 165,
+      averageWQI: 145,
+      hotspots: [
+        {
+          id: "1",
+          location: "Anand Vihar",
+          lat: 28.6469,
+          lng: 77.3161,
+          aqi: 195,
+          wqi: 155,
+          severity: "Critical",
+          description: "Industrial and traffic pollution hotspot",
+          recommendations: ["Wear N95 masks", "Avoid outdoor activities"]
+        },
+        {
+          id: "2",
+          location: "Punjabi Bagh",
+          lat: 28.6672,
+          lng: 77.1311,
+          aqi: 175,
+          wqi: 135,
+          severity: "High",
+          description: "Heavy traffic area with poor air quality",
+          recommendations: ["Use air purifiers", "Keep windows closed"]
+        }
+      ],
+      lastUpdated: new Date().toISOString()
+    },
+    {
+      state: "Maharashtra",
+      averageAQI: 120,
+      averageWQI: 110,
+      hotspots: [
+        {
+          id: "3",
+          location: "Chandrapur",
+          lat: 19.9615,
+          lng: 79.2961,
+          aqi: 160,
+          wqi: 130,
+          severity: "High",
+          description: "Industrial area with thermal power plants",
+          recommendations: ["Use masks outdoors", "Monitor air quality"]
+        }
+      ],
+      lastUpdated: new Date().toISOString()
+    }
+    // Add more states as needed
+  ];
+
+  return stateData;
+};
+
 export const getCityCoordinates = async (city: string): Promise<{lat: number, lng: number}> => {
   try {
-    const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=4fb59c9232664f91a0e0e65d80dff0d4`);
+    const response = await fetch(
+      `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=4fb59c9232664f91a0e0e65d80dff0d4`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
 
-    if (data.results && data.results.length > 0) {
-      const { lat, lng } = data.results[0].geometry;
-      return { lat, lng };
+    if (!data.results || data.results.length === 0) {
+      throw new Error('City not found');
     }
-    throw new Error('City not found');
+
+    const { lat, lng } = data.results[0].geometry;
+    return { lat, lng };
   } catch (error) {
     console.error('Error getting city coordinates:', error);
-    return { lat: 28.6139, lng: 77.2090 }; // Default to Delhi
+    throw new Error(`Failed to get coordinates: ${error.message}`);
   }
 };
 
 // Helper functions remain unchanged
 export const getAQICategory = (aqi: number): {category: string, color: string} => {
-  if (aqi <= 50) {
-    return { category: 'Good', color: '#4CAF50' }; // Green
-  } else if (aqi <= 100) {
-    return { category: 'Moderate', color: '#FFEB3B' }; // Yellow
-  } else if (aqi <= 150) {
-    return { category: 'Unhealthy for Sensitive Groups', color: '#FF9800' }; // Orange
-  } else if (aqi <= 200) {
-    return { category: 'Unhealthy', color: '#F44336' }; // Red
-  } else if (aqi <= 300) {
-    return { category: 'Very Unhealthy', color: '#9C27B0' }; // Purple
-  } else {
-    return { category: 'Hazardous', color: '#7D1919' }; // Maroon
-  }
+  if (aqi <= 50) return { category: 'Good', color: '#4CAF50' };
+  if (aqi <= 100) return { category: 'Moderate', color: '#FFEB3B' };
+  if (aqi <= 150) return { category: 'Unhealthy for Sensitive Groups', color: '#FF9800' };
+  if (aqi <= 200) return { category: 'Unhealthy', color: '#F44336' };
+  if (aqi <= 300) return { category: 'Very Unhealthy', color: '#9C27B0' };
+  return { category: 'Hazardous', color: '#7D1919' };
 };
 
 export const getWQICategory = (wqi: number): {category: string, color: string} => {
-  if (wqi <= 50) {
-    return { category: 'Excellent', color: '#4CAF50' };
-  } else if (wqi <= 100) {
-    return { category: 'Good', color: '#8BC34A' };
-  } else if (wqi <= 150) {
-    return { category: 'Fair', color: '#FFEB3B' };
-  } else if (wqi <= 200) {
-    return { category: 'Poor', color: '#FF9800' };
-  } else if (wqi <= 300) {
-    return { category: 'Very Poor', color: '#F44336' };
-  } else {
-    return { category: 'Unsuitable', color: '#7D1919' };
-  }
+  if (wqi <= 50) return { category: 'Excellent', color: '#4CAF50' };
+  if (wqi <= 100) return { category: 'Good', color: '#8BC34A' };
+  if (wqi <= 150) return { category: 'Fair', color: '#FFEB3B' };
+  if (wqi <= 200) return { category: 'Poor', color: '#FF9800' };
+  if (wqi <= 300) return { category: 'Very Poor', color: '#F44336' };
+  return { category: 'Unsuitable', color: '#7D1919' };
 };
 
 export const getAQIHealthMessage = (aqi: number): string => {

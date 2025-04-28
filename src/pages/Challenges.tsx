@@ -7,47 +7,40 @@ import { Badge } from "@/components/ui/badge";
 import { PollutionHotspot } from "@/types";
 import { AlertTriangle, MapPin, Bell, BellOff } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { fetchStatePollutionData } from "@/lib/api";
 
 const Hotspots = () => {
   const [hotspots, setHotspots] = useState<PollutionHotspot[]>([]);
   const [notifications, setNotifications] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Simulated data - replace with actual API integration
     const fetchHotspots = async () => {
       try {
-        // TODO: Replace with actual API calls
-        const mockHotspots: PollutionHotspot[] = [
-          {
-            id: "1",
-            location: "Anand Vihar, Delhi",
-            lat: 28.6469,
-            lng: 77.3161,
-            aqi: 195,
-            wqi: 155,
-            severity: "Critical",
-            description: "Industrial and traffic pollution hotspot",
-            recommendations: [
-              "Wear N95 masks when outdoors",
-              "Avoid outdoor activities",
-              "Use air purifiers indoors"
-            ]
-          },
-          // Add more hotspots...
-        ];
-        setHotspots(mockHotspots);
-      } catch (error) {
-        console.error("Error fetching hotspots:", error);
+        setLoading(true);
+        const stateData = await fetchStatePollutionData();
+        const allHotspots = stateData.flatMap(state => state.hotspots);
+        setHotspots(allHotspots);
+        setError(null);
+      } catch (err) {
+        setError('Failed to fetch pollution hotspots');
+        toast({
+          title: "Error",
+          description: "Failed to load pollution hotspots. Please try again.",
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchHotspots();
-  }, []);
+  }, [toast]);
 
   const toggleNotifications = () => {
     if (!notifications) {
-      // Request notification permission
       if ("Notification" in window) {
         Notification.requestPermission().then(permission => {
           if (permission === "granted") {
@@ -79,33 +72,38 @@ const Hotspots = () => {
     }
   };
 
+  if (loading) {
+    return <div>Loading pollution hotspots...</div>;
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertTriangle className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-eco-dark-green">
             Pollution Hotspots
           </h1>
           <p className="text-muted-foreground">
-            Critical pollution areas requiring immediate attention
+            Critical areas requiring immediate attention
           </p>
         </div>
-        
         <Button
-          variant={notifications ? "destructive" : "default"}
+          variant="outline"
           onClick={toggleNotifications}
+          className="flex items-center gap-2"
         >
-          {notifications ? (
-            <>
-              <BellOff className="mr-2 h-4 w-4" />
-              Disable Alerts
-            </>
-          ) : (
-            <>
-              <Bell className="mr-2 h-4 w-4" />
-              Enable Alerts
-            </>
-          )}
+          {notifications ? <BellOff className="h-4 w-4" /> : <Bell className="h-4 w-4" />}
+          {notifications ? "Disable Alerts" : "Enable Alerts"}
         </Button>
       </div>
 
@@ -147,18 +145,15 @@ const Hotspots = () => {
                     </div>
                   </div>
                 </div>
-
-                <Alert>
-                  <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle>Safety Recommendations</AlertTitle>
-                  <AlertDescription>
-                    <ul className="list-disc list-inside space-y-1 mt-2">
-                      {hotspot.recommendations.map((rec, index) => (
-                        <li key={index}>{rec}</li>
-                      ))}
-                    </ul>
-                  </AlertDescription>
-                </Alert>
+                <p className="text-gray-600">{hotspot.description}</p>
+                <div className="space-y-2">
+                  <h4 className="font-semibold">Recommendations:</h4>
+                  <ul className="list-disc list-inside space-y-1 text-gray-600">
+                    {hotspot.recommendations.map((rec, index) => (
+                      <li key={index}>{rec}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </CardContent>
           </Card>
