@@ -5,6 +5,7 @@ import { WQICard } from "@/components/pollution/WQICard";
 import { CitySelector } from "@/components/pollution/CitySelector";
 import { PollutionAlert } from "@/components/pollution/PollutionAlert";
 import { ChallengeCard } from "@/components/challenges/ChallengeCard";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";

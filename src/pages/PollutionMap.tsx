@@ -331,6 +331,64 @@ const PollutionMap = () => {
           </Card>
         </div>
       </div>
+
+      {selectedCity && (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <MapPin className="h-5 w-5 text-eco-green" />
+              {selectedCity.name} Details
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="font-medium">Air Quality</h3>
+                {mapLocations.find(loc => loc.name === selectedCity.name)?.aqi ? (
+                  <>
+                    <div className="flex justify-between items-center">
+                      <span>AQI Level</span>
+                      <Badge className="bg-eco-green">
+                        {mapLocations.find(loc => loc.name === selectedCity.name)?.aqi}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Category</span>
+                      <Badge className={mapLocations.find(loc => loc.name === selectedCity.name)?.aqiColor}>
+                        {mapLocations.find(loc => loc.name === selectedCity.name)?.aqiCategory}
+                      </Badge>
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-muted-foreground">Loading air quality data...</p>
+                )}
+              </div>
+              
+              <div className="space-y-4">
+                <h3 className="font-medium">Water Quality</h3>
+                {mapLocations.find(loc => loc.name === selectedCity.name)?.wqi ? (
+                  <>
+                    <div className="flex justify-between items-center">
+                      <span>WQI Level</span>
+                      <Badge className="bg-eco-green">
+                        {mapLocations.find(loc => loc.name === selectedCity.name)?.wqi}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Category</span>
+                      <Badge className={mapLocations.find(loc => loc.name === selectedCity.name)?.wqiColor}>
+                        {mapLocations.find(loc => loc.name === selectedCity.name)?.wqiCategory}
+                      </Badge>
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-muted-foreground">Loading water quality data...</p>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,7 +12,6 @@ import Challenges from "./pages/Challenges";
 import Leaderboard from "./pages/Leaderboard";
 import Trends from "./pages/Trends";
 import News from "./pages/News";
-import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import { PollutionProvider } from "./contexts/PollutionContext";
@@ -37,7 +35,6 @@ const App = () => (
                 <Route path="leaderboard" element={<Leaderboard />} />
                 <Route path="trends" element={<Trends />} />
                 <Route path="news" element={<News />} />
-                <Route path="profile" element={<Profile />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
