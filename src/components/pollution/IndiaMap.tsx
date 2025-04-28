@@ -1,7 +1,15 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import { Map, View } from 'ol';
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
+import { fromLonLat } from 'ol/proj';
+import { Feature } from 'ol';
+import Point from 'ol/geom/Point';
+import { Vector as VectorLayer } from 'ol/layer';
+import { Vector as VectorSource } from 'ol/source';
+import { Style, Circle, Fill, Stroke } from 'ol/style';
+import 'ol/ol.css';
 import { MapConfig } from './MapConfig';
 
 interface IndiaMapProps {
@@ -11,70 +19,105 @@ interface IndiaMapProps {
 
 const IndiaMap = ({ center, marker }: IndiaMapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const markerRef = useRef<mapboxgl.Marker | null>(null);
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem('mapbox_token')
+  const map = useRef<Map | null>(null);
+  const [mapConfigClosed, setMapConfigClosed] = useState(
+    localStorage.getItem('mapConfigClosed') === 'true'
   );
 
   useEffect(() => {
-    if (!token || !mapContainer.current) return;
+    if (!mapContainer.current || !mapConfigClosed) return;
 
-    mapboxgl.accessToken = token;
-    
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: center,
-      zoom: 4,
-      bounds: [
-        [68.1766451354, 7.96553477623], // Southwest coordinates of India
-        [97.4025614766, 35.4940095078]  // Northeast coordinates of India
+    // Define India bounds
+    const indiaBounds = [
+      [68.1, 7.9], // Southwest coordinates of India
+      [97.4, 35.5]  // Northeast coordinates of India
+    ];
+
+    // Create the map
+    map.current = new Map({
+      target: mapContainer.current,
+      layers: [
+        new TileLayer({
+          source: new OSM()
+        })
       ],
-      maxBounds: [
-        [50.3516, -4.2317], // Southwest coordinates
-        [114.3535, 39.4787] // Northeast coordinates
-      ]
+      view: new View({
+        center: fromLonLat(center),
+        zoom: 4,
+        extent: [
+          ...fromLonLat([indiaBounds[0][0], indiaBounds[0][1]]),
+          ...fromLonLat([indiaBounds[1][0], indiaBounds[1][1]])
+        ],
+        constrainOnlyCenter: true
+      })
     });
 
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
-    return () => {
-      if (markerRef.current) {
-        markerRef.current.remove();
-      }
-      map.current?.remove();
-    };
-  }, [token, center]);
-
-  useEffect(() => {
-    if (!map.current || !marker) return;
-
-    // Remove existing marker
-    if (markerRef.current) {
-      markerRef.current.remove();
+    // Add marker if provided
+    if (marker) {
+      addMarker(marker);
     }
 
-    // Create new marker
-    const el = document.createElement('div');
-    el.className = 'w-4 h-4 rounded-full border-2 border-white shadow-lg';
-    el.style.backgroundColor = marker.color;
+    return () => {
+      if (map.current) {
+        map.current.setTarget(undefined);
+        map.current = null;
+      }
+    };
+  }, [center, marker, mapConfigClosed]);
 
-    markerRef.current = new mapboxgl.Marker({ element: el })
-      .setLngLat([marker.lng, marker.lat])
-      .addTo(map.current);
+  // Function to add a marker to the map
+  const addMarker = (markerData: { lat: number; lng: number; color: string }) => {
+    if (!map.current) return;
+
+    // Create vector layer for markers
+    const markerFeature = new Feature({
+      geometry: new Point(fromLonLat([markerData.lng, markerData.lat]))
+    });
+
+    // Style for the marker
+    const markerStyle = new Style({
+      image: new Circle({
+        radius: 6,
+        fill: new Fill({
+          color: markerData.color
+        }),
+        stroke: new Stroke({
+          color: '#fff',
+          width: 2
+        })
+      })
+    });
+
+    markerFeature.setStyle(markerStyle);
+
+    // Create vector source and layer
+    const vectorSource = new VectorSource({
+      features: [markerFeature]
+    });
+
+    const vectorLayer = new VectorLayer({
+      source: vectorSource
+    });
+
+    // Add to map
+    map.current.addLayer(vectorLayer);
 
     // Fly to marker location
-    map.current.flyTo({
-      center: [marker.lng, marker.lat],
+    map.current.getView().animate({
+      center: fromLonLat([markerData.lng, markerData.lat]),
       zoom: 8,
-      duration: 2000
+      duration: 1000
     });
-  }, [marker]);
+  };
+
+  const handleCloseMapConfig = () => {
+    setMapConfigClosed(true);
+    localStorage.setItem('mapConfigClosed', 'true');
+  };
 
   return (
     <>
-      {!token && <MapConfig onTokenSubmit={setToken} />}
+      {!mapConfigClosed && <MapConfig onClose={handleCloseMapConfig} />}
       <div className="relative w-full h-full min-h-[400px]">
         <div ref={mapContainer} className="absolute inset-0 rounded-lg" />
       </div>
