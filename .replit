@@ -8,6 +8,10 @@ channel = "stable-24_05"
 run = ["sh", "-c", "npm run dev"]
 
 [[ports]]
+localPort = 5000
+externalPort = 5000
+
+[[ports]]
 localPort = 8080
 externalPort = 80
 
@@ -33,4 +37,4 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "bun run dev"
+args = "bunx --bun vite --port 5000 --host 0.0.0.0"
