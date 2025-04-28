@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -30,7 +29,7 @@ interface IndiaMapProps {
   onMarkerClick?: (location: Location) => void;
 }
 
-const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClick }: IndiaMapProps) => {
+export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClick }: IndiaMapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const popupContainer = useRef<HTMLDivElement>(null);
   const map = useRef<Map | null>(null);
@@ -67,15 +66,12 @@ const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClick }: In
       })
     });
 
-    // Create popup overlay
+    // Create popup overlay with corrected options
     overlay.current = new Overlay({
       element: popupContainer.current,
       autoPan: true,
       positioning: 'bottom-center',
-      offset: [0, -10],
-      autoPanAnimation: {
-        duration: 250
-      }
+      offset: [0, -10]
     });
 
     map.current.addOverlay(overlay.current);
@@ -87,8 +83,9 @@ const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClick }: In
 
     // Add click event to close popup
     document.addEventListener('click', (e) => {
-      if (popupContainer.current && !popupContainer.current.contains(e.target as Node) && 
-          !e.target.className?.includes?.('ol-marker')) {
+      const target = e.target as HTMLElement;
+      if (popupContainer.current && !popupContainer.current.contains(target) && 
+          !target.classList?.contains('ol-marker')) {
         overlay.current?.setPosition(undefined);
       }
     });

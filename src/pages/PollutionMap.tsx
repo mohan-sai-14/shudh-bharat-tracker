@@ -47,7 +47,27 @@ const PollutionMap = () => {
       { name: "Shimla", lat: 31.1048, lng: 77.1734 },
       { name: "Rishikesh", lat: 30.0869, lng: 78.2676 },
       { name: "Darjeeling", lat: 27.0410, lng: 88.2663 },
-      { name: "Dehradun", lat: 30.3165, lng: 78.0322 }
+      { name: "Dehradun", lat: 30.3165, lng: 78.0322 },
+      { name: "Aurangabad", lat: 19.8762, lng: 75.3433 },
+      { name: "Raipur", lat: 21.2514, lng: 81.6296 },
+      { name: "Jodhpur", lat: 26.2389, lng: 73.0243 },
+      { name: "Mysuru", lat: 12.2958, lng: 76.6394 },
+      { name: "Nashik", lat: 19.9975, lng: 73.7898 },
+      { name: "Mangaluru", lat: 12.9141, lng: 74.8560 },
+      { name: "Ujjain", lat: 23.1765, lng: 75.7885 },
+      { name: "Imphal", lat: 24.8170, lng: 93.9368 },
+      { name: "Panaji", lat: 15.4989, lng: 73.8278 },
+      { name: "Itanagar", lat: 27.0844, lng: 93.6053 },
+      { name: "Shillong", lat: 25.5788, lng: 91.8933 },
+      { name: "Gangtok", lat: 27.3389, lng: 88.6065 },
+      { name: "Kohima", lat: 25.6751, lng: 94.1086 },
+      { name: "Aizawl", lat: 23.7307, lng: 92.7173 },
+      { name: "Puducherry", lat: 11.9416, lng: 79.8083 },
+      { name: "Port Blair", lat: 11.6234, lng: 92.7265 },
+      { name: "Jammu", lat: 32.7266, lng: 74.8570 },
+      { name: "Srinagar", lat: 34.0837, lng: 74.7973 },
+      { name: "Kargil", lat: 34.5539, lng: 76.1349 },
+      { name: "Leh", lat: 34.1526, lng: 77.5771 }
     ];
     
     const allLocations = [...initialLocations, ...smallerLocations.map(loc => ({ ...loc, isMain: false }))];
