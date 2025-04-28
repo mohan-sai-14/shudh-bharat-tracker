@@ -1,0 +1,248 @@
+
+  VITE v5.4.10  ready in 375 ms
+
+  ➜  Local:   http://localhost:5000/
+  ➜  Network: http://172.31.128.97:5000/
+Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Error processing file src/pages/Dashboard.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "VarRedeclaration",
+        loc: Position {
+  line: 18,
+  column: 9,
+  index: 866,
+},
+        pos: 866,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6913:21)
+      at declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7350:16)
+      at checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7346:12)
+      at checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7287:12)
+      at finishImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13735:10)
+      at parseNamedImportSpecifiers (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13879:36)
+      at parseImportSpecifiersAndAfter (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13712:37)
+      at parseImport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9073:26)
+
+9:11:35 AM [vite] Pre-transform error:   × Unexpected token `div`. Expected jsx identifier
+     ╭─[/home/runner/workspace/src/pages/Dashboard.tsx:102:1]
+  99 │   };
+ 100 │   
+ 101 │   return (
+ 102 │     <div className="space-y-6">
+     ·      ───
+ 103 │       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+ 104 │         <div>
+ 105 │           <h1 className="text-3xl font-bold text-eco-dark-green">
+     ╰────
+
+
+Caused by:
+    Syntax Error
+9:11:35 AM [vite] Pre-transform error:   × the name `getWQIHealthMessage` is defined multiple times
+     ╭─[/home/runner/workspace/src/lib/api.ts:168:1]
+ 165 │ };
+ 166 │ 
+ 167 │ // Add health message function for WQI
+ 168 │ export const getWQIHealthMessage = (wqi: number): string => {
+     ·              ─────────┬─────────
+     ·                       ╰── previous definition of `getWQIHealthMessage` here
+ 169 │   if (wqi <= 50) {
+ 170 │     return "Water quality is excellent. Safe for drinking and all activities.";
+ 171 │   } else if (wqi <= 100) {
+ 172 │     return "Water quality is good. Safe for most uses with basic treatment.";
+ 173 │   } else if (wqi <= 150) {
+ 174 │     return "Water quality is fair. May need advanced treatment for drinking.";
+ 175 │   } else if (wqi <= 200) {
+ 176 │     return "Water quality is poor. Not recommended for direct contact.";
+ 177 │   } else if (wqi <= 300) {
+ 178 │     return "Water quality is very poor. Avoid all contact with water.";
+ 179 │   } else {
+ 180 │     return "Water is unsuitable for any use. Severe contamination present.";
+ 181 │   }
+ 182 │ };
+ 183 │ 
+ 184 │ // Get AQI health impact message
+ 185 │ export const getAQIHealthMessage = (aqi: number): string => {
+ 186 │   if (aqi <= 50) {
+ 187 │     return "Air quality is satisfactory. Enjoy outdoor activities!";
+ 188 │   } else if (aqi <= 100) {
+ 189 │     return "Air quality is acceptable. Consider reducing prolonged outdoor activities if you're sensitive to pollution.";
+ 190 │   } else if (aqi <= 150) {
+ 191 │     return "Children, elderly, and individuals with respiratory diseases should limit outdoor exertion.";
+ 192 │   } else if (aqi <= 200) {
+ 193 │     return "Everyone may begin to experience health effects. Limit outdoor activities.";
+ 194 │   } else if (aqi <= 300) {
+ 195 │     return "Health warnings of emergency conditions. The entire population is more likely to be affected.";
+ 196 │   } else {
+ 197 │     return "EMERGENCY: Everyone should avoid all outdoor physical activities and stay indoors.";
+ 198 │   }
+ 199 │ };
+ 200 │ 
+ 201 │ // Get WQI impact message
+ 202 │ export const getWQIHealthMessage = (wqi: number): string => {
+     ·              ─────────┬─────────
+     ·                       ╰── `getWQIHealthMessage` redefined here
+ 203 │   if (wqi <= 50) {
+ 204 │     return "Water quality is excellent. Safe for drinking and recreational activities.";
+ 205 │   } else if (wqi <= 100) {
+     ╰────
+
+9:11:35 AM [vite] Pre-transform error:   × the name `getWQIHealthMessage` is defined multiple times
+     ╭─[/home/runner/workspace/src/lib/api.ts:168:1]
+ 165 │ };
+ 166 │ 
+ 167 │ // Add health message function for WQI
+ 168 │ export const getWQIHealthMessage = (wqi: number): string => {
+     ·              ─────────┬─────────
+     ·                       ╰── previous definition of `getWQIHealthMessage` here
+ 169 │   if (wqi <= 50) {
+ 170 │     return "Water quality is excellent. Safe for drinking and all activities.";
+ 171 │   } else if (wqi <= 100) {
+ 172 │     return "Water quality is good. Safe for most uses with basic treatment.";
+ 173 │   } else if (wqi <= 150) {
+ 174 │     return "Water quality is fair. May need advanced treatment for drinking.";
+ 175 │   } else if (wqi <= 200) {
+ 176 │     return "Water quality is poor. Not recommended for direct contact.";
+ 177 │   } else if (wqi <= 300) {
+ 178 │     return "Water quality is very poor. Avoid all contact with water.";
+ 179 │   } else {
+ 180 │     return "Water is unsuitable for any use. Severe contamination present.";
+ 181 │   }
+ 182 │ };
+ 183 │ 
+ 184 │ // Get AQI health impact message
+ 185 │ export const getAQIHealthMessage = (aqi: number): string => {
+ 186 │   if (aqi <= 50) {
+ 187 │     return "Air quality is satisfactory. Enjoy outdoor activities!";
+ 188 │   } else if (aqi <= 100) {
+ 189 │     return "Air quality is acceptable. Consider reducing prolonged outdoor activities if you're sensitive to pollution.";
+ 190 │   } else if (aqi <= 150) {
+ 191 │     return "Children, elderly, and individuals with respiratory diseases should limit outdoor exertion.";
+ 192 │   } else if (aqi <= 200) {
+ 193 │     return "Everyone may begin to experience health effects. Limit outdoor activities.";
+ 194 │   } else if (aqi <= 300) {
+ 195 │     return "Health warnings of emergency conditions. The entire population is more likely to be affected.";
+ 196 │   } else {
+ 197 │     return "EMERGENCY: Everyone should avoid all outdoor physical activities and stay indoors.";
+ 198 │   }
+ 199 │ };
+ 200 │ 
+ 201 │ // Get WQI impact message
+ 202 │ export const getWQIHealthMessage = (wqi: number): string => {
+     ·              ─────────┬─────────
+     ·                       ╰── `getWQIHealthMessage` redefined here
+ 203 │   if (wqi <= 50) {
+ 204 │     return "Water quality is excellent. Safe for drinking and recreational activities.";
+ 205 │   } else if (wqi <= 100) {
+     ╰────
+ (x2)
+Error processing file src/pages/Dashboard.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "VarRedeclaration",
+        loc: Position {
+  line: 18,
+  column: 9,
+  index: 866,
+},
+        pos: 866,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6913:21)
+      at declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7350:16)
+      at checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7346:12)
+      at checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7287:12)
+      at finishImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13735:10)
+      at parseNamedImportSpecifiers (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13879:36)
+      at parseImportSpecifiersAndAfter (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13712:37)
+      at parseImport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9073:26)
+
+9:11:36 AM [vite] Internal server error:   × Unexpected token `div`. Expected jsx identifier
+     ╭─[/home/runner/workspace/src/pages/Dashboard.tsx:102:1]
+  99 │   };
+ 100 │   
+ 101 │   return (
+ 102 │     <div className="space-y-6">
+     ·      ───
+ 103 │       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+ 104 │         <div>
+ 105 │           <h1 className="text-3xl font-bold text-eco-dark-green">
+     ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: /home/runner/workspace/src/pages/Dashboard.tsx:102:1
+9:11:36 AM [vite] Internal server error:   × the name `getWQIHealthMessage` is defined multiple times
+     ╭─[/home/runner/workspace/src/lib/api.ts:168:1]
+ 165 │ };
+ 166 │ 
+ 167 │ // Add health message function for WQI
+ 168 │ export const getWQIHealthMessage = (wqi: number): string => {
+     ·              ─────────┬─────────
+     ·                       ╰── previous definition of `getWQIHealthMessage` here
+ 169 │   if (wqi <= 50) {
+ 170 │     return "Water quality is excellent. Safe for drinking and all activities.";
+ 171 │   } else if (wqi <= 100) {
+ 172 │     return "Water quality is good. Safe for most uses with basic treatment.";
+ 173 │   } else if (wqi <= 150) {
+ 174 │     return "Water quality is fair. May need advanced treatment for drinking.";
+ 175 │   } else if (wqi <= 200) {
+ 176 │     return "Water quality is poor. Not recommended for direct contact.";
+ 177 │   } else if (wqi <= 300) {
+ 178 │     return "Water quality is very poor. Avoid all contact with water.";
+ 179 │   } else {
+ 180 │     return "Water is unsuitable for any use. Severe contamination present.";
+ 181 │   }
+ 182 │ };
+ 183 │ 
+ 184 │ // Get AQI health impact message
+ 185 │ export const getAQIHealthMessage = (aqi: number): string => {
+ 186 │   if (aqi <= 50) {
+ 187 │     return "Air quality is satisfactory. Enjoy outdoor activities!";
+ 188 │   } else if (aqi <= 100) {
+ 189 │     return "Air quality is acceptable. Consider reducing prolonged outdoor activities if you're sensitive to pollution.";
+ 190 │   } else if (aqi <= 150) {
+ 191 │     return "Children, elderly, and individuals with respiratory diseases should limit outdoor exertion.";
+ 192 │   } else if (aqi <= 200) {
+ 193 │     return "Everyone may begin to experience health effects. Limit outdoor activities.";
+ 194 │   } else if (aqi <= 300) {
+ 195 │     return "Health warnings of emergency conditions. The entire population is more likely to be affected.";
+ 196 │   } else {
+ 197 │     return "EMERGENCY: Everyone should avoid all outdoor physical activities and stay indoors.";
+ 198 │   }
+ 199 │ };
+ 200 │ 
+ 201 │ // Get WQI impact message
+ 202 │ export const getWQIHealthMessage = (wqi: number): string => {
+     ·              ─────────┬─────────
+     ·                       ╰── `getWQIHealthMessage` redefined here
+ 203 │   if (wqi <= 50) {
+ 204 │     return "Water quality is excellent. Safe for drinking and recreational activities.";
+ 205 │   } else if (wqi <= 100) {
+     ╰────
+
+  Plugin: vite:react-swc
+  File: /home/runner/workspace/src/lib/api.ts:168:1
+^C
