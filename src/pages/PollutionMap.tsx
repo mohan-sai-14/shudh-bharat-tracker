@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import IndiaMap from "@/components/pollution/IndiaMap";
 import { City } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
+import { Badge } from "@/components/ui/badge"; // Added import for Badge component
 
 const PollutionMap = () => {
   const { pollutionData, isLoading, selectedCity, cities, setSelectedCity } = usePollution();
@@ -25,7 +26,7 @@ const PollutionMap = () => {
       ...city,
       isMain: true
     }));
-    
+
     const smallerLocations = [
       { name: "Varanasi", lat: 25.3176, lng: 82.9739 },
       { name: "Agra", lat: 27.1767, lng: 78.0081 },
@@ -69,19 +70,19 @@ const PollutionMap = () => {
       { name: "Kargil", lat: 34.5539, lng: 76.1349 },
       { name: "Leh", lat: 34.1526, lng: 77.5771 }
     ];
-    
+
     const allLocations = [...initialLocations, ...smallerLocations.map(loc => ({ ...loc, isMain: false }))];
-    
+
     const fetchAllData = async () => {
       const locationsWithData = await Promise.all(
         allLocations.map(async (location) => {
           try {
             const aqi = await fetchAQIData(location.lat, location.lng);
             const wqi = await fetchWQIData(location.lat, location.lng);
-            
+
             const aqiCategory = getAQICategory(aqi.aqi);
             const wqiCategory = getWQICategory(wqi.wqi);
-            
+
             return {
               ...location,
               aqi: aqi.aqi,
@@ -96,9 +97,9 @@ const PollutionMap = () => {
           }
         })
       );
-      
+
       setMapLocations(locationsWithData);
-      
+
       const allCities = [
         ...cities,
         ...smallerLocations.map(loc => ({ 
@@ -107,13 +108,13 @@ const PollutionMap = () => {
           lng: loc.lng 
         }))
       ];
-      
+
       setFilteredLocations(allCities);
     };
-    
+
     fetchAllData();
   }, [cities]);
-  
+
   useEffect(() => {
     if (!searchQuery) {
       setFilteredLocations([...cities, ...(mapLocations.filter(loc => !loc.isMain).map(loc => ({ 
@@ -123,15 +124,15 @@ const PollutionMap = () => {
       })))]);
       return;
     }
-    
+
     const query = searchQuery.toLowerCase();
     const filtered = mapLocations
       .filter(location => location.name.toLowerCase().includes(query))
       .map(loc => ({ name: loc.name, lat: loc.lat, lng: loc.lng }));
-    
+
     setFilteredLocations(filtered);
   }, [searchQuery, mapLocations, cities]);
-  
+
   const handleLocationSelect = (city: City) => {
     setSelectedCity(city);
     toast({
@@ -157,7 +158,7 @@ const PollutionMap = () => {
       { level: "Very Unhealthy", color: "#9C27B0", range: "201-300" },
       { level: "Hazardous", color: "#7D1919", range: "301+" },
     ];
-    
+
     return (
       <div className="flex flex-col gap-1 mt-4">
         <h3 className="text-sm font-medium">Legend</h3>
@@ -193,14 +194,14 @@ const PollutionMap = () => {
             Interactive map showing pollution levels across India
           </p>
         </div>
-        
+
         <CitySelector 
           cities={filteredLocations}
           selectedCity={selectedCity}
           onSelect={handleLocationSelect}
         />
       </div>
-      
+
       <div className="grid gap-6 lg:grid-cols-4">
         <div className="lg:col-span-3">
           <Card className="overflow-hidden">
@@ -215,7 +216,7 @@ const PollutionMap = () => {
                   <TabsTrigger value="wqi">Water Quality</TabsTrigger>
                 </TabsList>
               </Tabs>
-              
+
               <div className="flex gap-2">
                 <Button variant="outline" size="sm">
                   <Filter className="h-4 w-4 mr-2" />
@@ -232,7 +233,7 @@ const PollutionMap = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="h-[60vh] bg-slate-100 relative">
               {false ? (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -249,7 +250,7 @@ const PollutionMap = () => {
             </div>
           </Card>
         </div>
-        
+
         <div className="space-y-6">
           <Card>
             <CardHeader className="pb-2">
@@ -265,7 +266,7 @@ const PollutionMap = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              
+
               <div className="space-y-2 mt-2">
                 <p className="text-sm font-medium">Popular Locations</p>
                 <div className="max-h-48 overflow-y-auto space-y-1">
@@ -280,7 +281,7 @@ const PollutionMap = () => {
                       {city.name}
                     </Button>
                   ))}
-                  
+
                   {searchQuery && filteredLocations.length === 0 && (
                     <p className="text-sm text-muted-foreground py-2 text-center">
                       No locations found matching "{searchQuery}"
@@ -290,14 +291,14 @@ const PollutionMap = () => {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">Pollution Levels</CardTitle>
             </CardHeader>
             <CardContent>
               {renderGradientLegend()}
-              
+
               <div className="mt-6 space-y-3 text-sm">
                 <p className="font-medium">
                   {activeTab === "aqi" ? "Air Quality Categories" : "Water Quality Categories"}
@@ -363,7 +364,7 @@ const PollutionMap = () => {
                   <p className="text-muted-foreground">Loading air quality data...</p>
                 )}
               </div>
-              
+
               <div className="space-y-4">
                 <h3 className="font-medium">Water Quality</h3>
                 {mapLocations.find(loc => loc.name === selectedCity.name)?.wqi ? (

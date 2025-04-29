@@ -1,10 +1,14 @@
+import Badge from 'path/to/Badge'; // Replace 'path/to/Badge' with the actual import path
+
 import { AQIData, WQIData, PollutionHotspot, StatePollutionData } from '@/types';
 
-// Real OpenAQ API implementation with error handling
+// Real OpenAQ API implementation with error handling and no-cors mode
 export const fetchAQIData = async (lat: number, lng: number): Promise<AQIData> => {
   try {
     const response = await fetch(`https://api.openaq.org/v2/latest?coordinates=${lat},${lng}&radius=50000&limit=1`, {
+      mode: 'no-cors',
       headers: {
+        'Accept': 'application/json',
         'Authorization': 'Bearer bebeb02e471dd66dec810c97ac5afea40af6af63b9453ae81683496b6973ba0e'
       }
     });
@@ -223,7 +227,13 @@ const generateRecommendations = (severity: string): string[] => {
 export const getCityCoordinates = async (city: string): Promise<{lat: number, lng: number}> => {
   try {
     const response = await fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=4fb59c9232664f91a0e0e65d80dff0d4`
+      `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=4fb59c9232664f91a0e0e65d80dff0d4`,
+      {
+        mode: 'no-cors',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }
     );
 
     if (!response.ok) {
