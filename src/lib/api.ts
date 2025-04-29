@@ -22,7 +22,6 @@ export const fetchAQIData = async (lat: number, lng: number): Promise<AQIData> =
         o3: measurements.find((m: any) => m.parameter === 'o3')?.value || 0
       };
 
-      // Calculate AQI based on PM2.5 and PM10
       const aqi = Math.max(calculateAQI(components.pm2_5, 'pm2_5'), calculateAQI(components.pm10, 'pm10'));
 
       return {
@@ -35,7 +34,6 @@ export const fetchAQIData = async (lat: number, lng: number): Promise<AQIData> =
     throw new Error('No data available');
   } catch (error) {
     console.error('Error fetching AQI data:', error);
-    // Fallback to simulated data if API fails
     return {
       aqi: Math.floor(Math.random() * 300) + 50,
       components: {
@@ -50,6 +48,15 @@ export const fetchAQIData = async (lat: number, lng: number): Promise<AQIData> =
     };
   }
 };
+
+interface AQIComponents {
+  pm2_5: number;
+  pm10: number;
+  no2: number;
+  so2: number;
+  co: number;
+  o3: number;
+}
 
 const calculateAQI = (concentration: number, pollutant: 'pm2_5' | 'pm10'): number => {
   const breakpoints = {
@@ -82,31 +89,6 @@ const calculateAQI = (concentration: number, pollutant: 'pm2_5' | 'pm10'): numbe
   );
 };
 
-const calculateAQI_old = (components: any): number => {
-  // Basic AQI calculation based on PM2.5 and PM10
-  const pm25Index = components.pm2_5 * 4.5;
-  const pm10Index = components.pm10 * 2.5;
-  return Math.round(Math.max(pm25Index, pm10Index));
-};
-
-const simulateAQIData = (lat: number, lon: number): AQIData => {
-  const seed = Math.abs(Math.sin(lat * lon));
-  const baseAQI = 30 + Math.floor(seed * 200);
-
-  return {
-    aqi: baseAQI,
-    components: {
-      pm2_5: baseAQI / 4.5,
-      pm10: baseAQI / 2.5,
-      no2: seed * 50,
-      so2: seed * 40,
-      co: seed * 10,
-      o3: seed * 60
-    },
-    timestamp: new Date().toISOString()
-  };
-};
-
 export const fetchWQIData = async (lat: number, lon: number): Promise<WQIData> => {
   try {
     const seed = Math.abs(Math.sin(lat * lon));
@@ -133,8 +115,7 @@ export const fetchWQIData = async (lat: number, lon: number): Promise<WQIData> =
 };
 
 export const fetchStatePollutionData = async (): Promise<StatePollutionData[]> => {
-  try {
-    const allStates = [
+  const allStates = [
     { name: "Delhi", lat: 28.6139, lng: 77.2090 },
     { name: "Maharashtra", lat: 19.7515, lng: 75.7139 },
     { name: "Uttar Pradesh", lat: 26.8467, lng: 80.9462 },
@@ -144,26 +125,7 @@ export const fetchStatePollutionData = async (): Promise<StatePollutionData[]> =
     { name: "West Bengal", lat: 22.5726, lng: 88.3639 },
     { name: "Rajasthan", lat: 26.9124, lng: 75.7873 },
     { name: "Punjab", lat: 30.9010, lng: 75.8573 },
-    { name: "Bihar", lat: 25.5941, lng: 85.1376 },
-    { name: "Madhya Pradesh", lat: 23.2599, lng: 77.4126 },
-    { name: "Telangana", lat: 17.3850, lng: 78.4867 },
-    { name: "Andhra Pradesh", lat: 16.5062, lng: 80.6480 },
-    { name: "Odisha", lat: 20.2961, lng: 85.8245 },
-    { name: "Kerala", lat: 8.5241, lng: 76.9366 },
-    { name: "Jharkhand", lat: 23.3441, lng: 85.3096 },
-    { name: "Assam", lat: 26.2006, lng: 92.9376 },
-    { name: "Chhattisgarh", lat: 21.2787, lng: 81.8661 },
-    { name: "Haryana", lat: 30.7333, lng: 76.7794 },
-    { name: "Uttarakhand", lat: 30.3165, lng: 78.0322 },
-    { name: "Himachal Pradesh", lat: 31.1048, lng: 77.1734 },
-    { name: "Goa", lat: 15.2993, lng: 74.1240 },
-    { name: "Tripura", lat: 23.8315, lng: 91.2868 },
-    { name: "Meghalaya", lat: 25.5788, lng: 91.8933 },
-    { name: "Manipur", lat: 24.6637, lng: 93.9063 },
-    { name: "Nagaland", lat: 26.1584, lng: 94.5624 },
-    { name: "Arunachal Pradesh", lat: 27.0844, lng: 93.6053 },
-    { name: "Mizoram", lat: 23.1645, lng: 92.9376 },
-    { name: "Sikkim", lat: 27.3389, lng: 88.6065 }
+    { name: "Bihar", lat: 25.5941, lng: 85.1376 }
   ];
 
   const stateData: StatePollutionData[] = await Promise.all(
@@ -171,13 +133,13 @@ export const fetchStatePollutionData = async (): Promise<StatePollutionData[]> =
       const aqi = await fetchAQIData(state.lat, state.lng);
       const wqi = await fetchWQIData(state.lat, state.lng);
 
-      const cityHotspots = await generateHotspotsForState(state.name, state.lat, state.lng);
+      const hotspots = await generateHotspotsForState(state.name, state.lat, state.lng);
 
       return {
         state: state.name,
         averageAQI: aqi.aqi,
         averageWQI: wqi.wqi,
-        hotspots: cityHotspots,
+        hotspots,
         lastUpdated: new Date().toISOString()
       };
     })
@@ -211,7 +173,7 @@ const generateHotspotsForState = async (
       aqi: aqi.aqi,
       wqi: wqi.wqi,
       severity,
-      description: generateHotspotDescription(severity),
+      description: await generateHotspotDescription(severity),
       recommendations: generateRecommendations(severity)
     });
   }
@@ -317,12 +279,3 @@ export const getWQIHealthMessage = (wqi: number): string => {
   if (wqi <= 300) return "Water is highly polluted. Avoid contact and do not consume without extensive treatment.";
   return "Water is severely contaminated. Not suitable for any use without intensive treatment.";
 };
-
-interface AQIComponents {
-  pm2_5: number;
-  pm10: number;
-  no2: number;
-  so2: number;
-  co: number;
-  o3: number;
-}
