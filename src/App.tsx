@@ -1,50 +1,42 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import Layout from "./components/layout/Layout";
-import Dashboard from "./pages/Dashboard";
-import PollutionMap from "./pages/PollutionMap";
-import ReportPollution from "./pages/ReportPollution";
-import Challenges from "./pages/Challenges";
-import Leaderboard from "./pages/Leaderboard";
-import Trends from "./pages/Trends";
-import News from "./pages/News";
-import Settings from "./pages/Settings";
-import NotFound from "./pages/NotFound";
-import { PollutionProvider } from "./contexts/PollutionContext";
-import Community from "./pages/Community"; // Import the Community page component
 
-const queryClient = new QueryClient();
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Layout } from '@/components/layout/Layout';
+import Dashboard from '@/pages/Dashboard';
+import PollutionMap from '@/pages/PollutionMap';
+import ReportPollution from '@/pages/ReportPollution';
+import Leaderboard from '@/pages/Leaderboard';
+import Community from '@/pages/Community';
+import Trends from '@/pages/Trends';
+import News from '@/pages/News';
+import Profile from '@/pages/Profile';
+import Settings from '@/pages/Settings';
+import NotFound from '@/pages/NotFound';
+import { Toaster } from '@/components/ui/toaster';
+import { PollutionProvider } from '@/contexts/PollutionContext';
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+function App() {
+  return (
     <PollutionProvider>
-      <TooltipProvider>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/map" element={<PollutionMap />} />
+            <Route path="/report" element={<ReportPollution />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/trends" element={<Trends />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/pollution-alerts" element={<PollutionMap />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
         <Toaster />
-        <Sonner />
-        <SidebarProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="map" element={<PollutionMap />} />
-                <Route path="report" element={<ReportPollution />} />
-                <Route path="community" element={<Community />} /> {/* Added Community route */}
-                <Route path="challenges" element={<Challenges />} />
-                <Route path="leaderboard" element={<Leaderboard />} />
-                <Route path="trends" element={<Trends />} />
-                <Route path="news" element={<News />} />
-                <Route path="*" element={<NotFound />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </SidebarProvider>
-      </TooltipProvider>
+      </Router>
     </PollutionProvider>
-  </QueryClientProvider>
-);
+  );
+}
 
 export default App;
