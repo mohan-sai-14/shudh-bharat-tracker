@@ -16,7 +16,7 @@ type SidebarProps = {
   setOpen: (open: boolean) => void;
 };
 
-const Sidebar = ({ open }: SidebarProps) => {
+const Sidebar = ({ open, setOpen }: SidebarProps) => {
   const navItems = [
     { name: "Dashboard", path: "/", icon: Home },
     { name: "Pollution Map", path: "/map", icon: MapPin },
@@ -24,8 +24,12 @@ const Sidebar = ({ open }: SidebarProps) => {
     { name: "State AQI/WQI Ranking", path: "/leaderboard", icon: Trophy },
     { name: "Trends & Analysis", path: "/trends", icon: ChartLine },
     { name: "Eco News", path: "/news", icon: Newspaper },
-    { name: "Community", path: "/community", icon: Users } // Added Community link
+    { name: "Community", path: "/community", icon: Users }
   ];
+
+  const handleNavClick = () => {
+    setOpen(false);
+  };
 
   return (
     <aside
@@ -52,6 +56,7 @@ const Sidebar = ({ open }: SidebarProps) => {
             <NavLink
               key={item.path}
               to={item.path}
+              onClick={handleNavClick}
               className={({ isActive }) =>
                 cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",

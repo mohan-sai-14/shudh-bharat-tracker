@@ -42,49 +42,102 @@ export const fetchWQIData = async (city: string): Promise<WQIData> => {
   }
 };
 
-export const getAQICategory = (aqi: number) => {
-  if (aqi <= 50) return { category: 'Good', color: 'green' };
-  if (aqi <= 100) return { category: 'Moderate', color: 'yellow' };
-  if (aqi <= 150) return { category: 'Unhealthy for Sensitive Groups', color: 'orange' };
-  if (aqi <= 200) return { category: 'Unhealthy', color: 'red' };
-  if (aqi <= 300) return { category: 'Very Unhealthy', color: 'purple' };
-  return { category: 'Hazardous', color: 'maroon' };
-};
+export async function reverseGeocode(latitude: number, longitude: number): Promise<string> {
+  try {
+    const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
+    const response = await fetch(
+      `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`
+    );
+    const data = await response.json();
 
-export const getWQICategory = (wqi: number) => {
-  if (wqi <= 50) return { category: 'Excellent', color: 'green' };
-  if (wqi <= 100) return { category: 'Good', color: 'lime' };
-  if (wqi <= 150) return { category: 'Fair', color: 'yellow' };
-  if (wqi <= 200) return { category: 'Poor', color: 'orange' };
-  if (wqi <= 300) return { category: 'Very Poor', color: 'red' };
-  return { category: 'Hazardous', color: 'maroon' };
-};
-
-export const getAQIHealthMessage = (aqi: number): string => {
-  const { category } = getAQICategory(aqi);
-  switch (category) {
-    case 'Good': return 'Air quality is satisfactory, and air pollution poses little or no risk.';
-    case 'Moderate': return 'Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.';
-    case 'Unhealthy for Sensitive Groups': return 'Members of sensitive groups may experience health effects. The general public is less likely to be affected.';
-    case 'Unhealthy': return 'Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.';
-    case 'Very Unhealthy': return 'Health alert: The risk of health effects is increased for everyone.';
-    case 'Hazardous': return 'Health warning of emergency conditions: everyone is more likely to be affected.';
-    default: return 'Air quality data is currently unavailable.';
+    if (data.results && data.results.length > 0) {
+      const result = data.results[0];
+      return result.components.city || result.components.town || result.components.state;
+    }
+    return "Unknown Location";
+  } catch (error) {
+    console.error("Error in reverse geocoding:", error);
+    return "Unknown Location";
   }
-};
+}
 
-export const getWQIHealthMessage = (wqi: number): string => {
-  const { category } = getWQICategory(wqi);
-  switch (category) {
-    case 'Excellent': return 'Water quality is excellent. Safe for all uses.';
-    case 'Good': return 'Water quality is good. Safe for most uses.';
-    case 'Fair': return 'Water quality is acceptable. Some treatment may be needed for drinking.';
-    case 'Poor': return 'Water quality is poor. Treatment required before use.';
-    case 'Very Poor': return 'Water quality is very poor. Significant treatment required.';
-    case 'Hazardous': return 'Water is unsafe for any use without extensive treatment.';
-    default: return 'Water quality data is currently unavailable.';
+export function getAQICategory(aqi: number) {
+  if (aqi <= 50) return { category: "Good", color: "green" };
+  if (aqi <= 100) return { category: "Moderate", color: "yellow" };
+  if (aqi <= 150) return { category: "Unhealthy for Sensitive Groups", color: "orange" };
+  if (aqi <= 200) return { category: "Unhealthy", color: "red" };
+  if (aqi <= 300) return { category: "Very Unhealthy", color: "purple" };
+  return { category: "Hazardous", color: "maroon" };
+}
+
+export function getAQIHealthMessage(aqi: number): string {
+  if (aqi <= 50) return "Air quality is satisfactory, and air pollution poses little or no risk.";
+  if (aqi <= 100) return "Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.";
+  if (aqi <= 150) return "Members of sensitive groups may experience health effects. The general public is less likely to be affected.";
+  if (aqi <= 200) return "Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.";
+  if (aqi <= 300) return "Health alert: The risk of health effects is increased for everyone.";
+  return "Health warning of emergency conditions: everyone is more likely to be affected.";
+}
+
+export function getWQICategory(wqi: number) {
+  if (wqi <= 50) return { category: "Excellent", color: "green" };
+  if (wqi <= 100) return { category: "Good", color: "yellow" };
+  if (wqi <= 200) return { category: "Fair", color: "orange" };
+  if (wqi <= 300) return { category: "Poor", color: "red" };
+  return { category: "Very Poor", color: "maroon" };
+}
+
+export function getWQIHealthMessage(wqi: number): string {
+  if (wqi <= 50) return "Water quality is excellent. Safe for drinking and all uses.";
+  if (wqi <= 100) return "Water quality is good. Suitable for most uses with basic treatment.";
+  if (wqi <= 200) return "Water quality is fair. Requires proper treatment before use.";
+  if (wqi <= 300) return "Water quality is poor. Significant treatment required.";
+  return "Water quality is very poor. Not suitable for most uses without extensive treatment.";
+}
+
+export async function getAQIData(latitude: number, longitude: number) {
+  try {
+    const apiKey = import.meta.env.VITE_AIRVISUAL_API_KEY;
+    const response = await fetch(
+      `https://api.airvisual.com/v2/nearest_city?lat=${latitude}&lon=${longitude}&key=${apiKey}`
+    );
+    const data = await response.json();
+
+    if (data.status === "success" && data.data) {
+      const { current: { pollution, weather } } = data.data;
+      return {
+        aqi: pollution.aqius,
+        components: {
+          pm2_5: pollution.pm25,
+          pm10: pollution.pm10 || 0,
+          no2: weather.no2 || 0,
+          so2: weather.so2 || 0,
+          co: weather.co || 0,
+          o3: weather.o3 || 0,
+        }
+      };
+    }
+    throw new Error("No AQI data available");
+  } catch (error) {
+    console.error("Error fetching AQI data:", error);
+    return undefined;
   }
-};
+}
+
+export async function getWQIData(latitude: number, longitude: number) {
+  // Simulated WQI data since we don't have a real API
+  return {
+    wqi: Math.floor(Math.random() * 300) + 1,
+    components: {
+      ph: Math.random() * 14,
+      dissolved_oxygen: Math.random() * 10,
+      turbidity: Math.random() * 100,
+      total_dissolved_solids: Math.random() * 1000,
+      temperature: 20 + Math.random() * 15,
+      conductivity: Math.random() * 1000,
+    }
+  };
+}
 
 export const getCityCoordinates = async (city: string): Promise<{lat: number, lng: number}> => {
   try {

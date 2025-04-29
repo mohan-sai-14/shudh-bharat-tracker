@@ -13,30 +13,36 @@ import Settings from '@/pages/Settings';
 import NotFound from '@/pages/NotFound';
 import { Toaster } from '@/components/ui/toaster';
 import { PollutionProvider } from '@/contexts/PollutionContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
+import { NotificationProvider } from '@/contexts/NotificationContext';
 import "@/styles/leaflet.css";
 
 function App() {
   return (
     <StrictMode>
-      <PollutionProvider>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/map" element={<Map />} />
-              <Route path="/report" element={<ReportPollution />} />
-              <Route path="/leaderboard" element={<Leaderboard />} />
-              <Route path="/community" element={<Community />} />
-              <Route path="/trends" element={<Trends />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-          <Toaster />
-        </Router>
-      </PollutionProvider>
+      <ThemeProvider>
+        <NotificationProvider>
+          <PollutionProvider>
+            <Router>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/map" element={<Map />} />
+                  <Route path="/report" element={<ReportPollution />} />
+                  <Route path="/leaderboard" element={<Leaderboard />} />
+                  <Route path="/community" element={<Community />} />
+                  <Route path="/trends" element={<Trends />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+              <Toaster />
+            </Router>
+          </PollutionProvider>
+        </NotificationProvider>
+      </ThemeProvider>
     </StrictMode>
   );
 }

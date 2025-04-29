@@ -18,6 +18,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
 import { realtimeService } from "@/services/realtime";
 import { cn } from "@/lib/utils";
+import { City } from "@/types";
+import { useGeolocation } from "@/hooks/use-geolocation";
 
 const Dashboard = () => {
   const { 
@@ -30,9 +32,39 @@ const Dashboard = () => {
     setSelectedCity 
   } = usePollution();
 
+  const { latitude, longitude, error: locationError } = useGeolocation();
+  const [city, setCity] = useState<string>("");
+  const [aqiData, setAqiData] = useState<any>();
+  const [wqiData, setWqiData] = useState<any>();
+  const [loading, setLoading] = useState(true);
+
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const { toast } = useToast();
+
+  useEffect(() => {
+    async function fetchData() {
+      if (latitude && longitude) {
+        try {
+          const [cityName, aqi, wqi] = await Promise.all([
+            reverseGeocode(latitude, longitude),
+            getAQIData(latitude, longitude),
+            getWQIData(latitude, longitude),
+          ]);
+
+          setCity(cityName);
+          setAqiData(aqi);
+          setWqiData(wqi);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchData();
+  }, [latitude, longitude]);
 
   useEffect(() => {
     if (activeTab === "map") {
@@ -66,18 +98,22 @@ const Dashboard = () => {
     try {
       await fetchPollutionData(selectedCity.name);
       toast({
-        title: "Data refreshed",
-        description: `Pollution data for ${selectedCity.name} has been updated.`,
+        title: "Success",
+        description: "Data refreshed successfully",
       });
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to refresh data. Please try again.",
+        description: "Failed to refresh data",
         variant: "destructive",
       });
     } finally {
       setIsRefreshing(false);
     }
+  };
+
+  const handleCitySelect = (city: City) => {
+    setSelectedCity(city);
   };
 
   useEffect(() => {
@@ -87,6 +123,28 @@ const Dashboard = () => {
   }, [selectedCity]);
 
   const renderContent = () => {
+    if (locationError) {
+      return (
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4">
+          <h2 className="text-xl font-semibold text-destructive mb-2">
+            Location Access Required
+          </h2>
+          <p className="text-center text-muted-foreground max-w-md">
+            {locationError}
+          </p>
+        </div>
+      );
+    }
+
+    if (loading) {
+      return (
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-4" />
+          <p className="text-muted-foreground">Loading pollution data...</p>
+        </div>
+      );
+    }
+
     if (isLoading) {
       return (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -180,7 +238,7 @@ const Dashboard = () => {
           <CitySelector
             cities={cities}
             selectedCity={selectedCity}
-            onSelect={setSelectedCity}
+            onSelect={handleCitySelect}
           />
           <Button
             variant="outline"

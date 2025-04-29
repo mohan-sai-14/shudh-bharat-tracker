@@ -24,7 +24,7 @@ const PollutionContext = createContext<PollutionContextType | undefined>(undefin
 
 export const PollutionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [userLocation, setUserLocation] = useState<{ city: string; lat: number; lng: number } | null>(null);
-  const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const [selectedCity, _setSelectedCity] = useState<City | null>(null);
   const [pollutionData, setPollutionData] = useState<Record<string, PollutionData> | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,9 +62,10 @@ export const PollutionProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   ];
 
   const fetchPollutionData = async (city: string) => {
-    setIsLoading(true);
-    setError(null);
     try {
+      setIsLoading(true);
+      setError(null);
+      
       const [aqiData, wqiData] = await Promise.all([
         fetchAQIData(city),
         fetchWQIData(city)
@@ -81,14 +82,25 @@ export const PollutionProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       }));
     } catch (err) {
       const error = err as Error;
+      console.error("Failed to fetch pollution data:", error);
       setError(error.message);
       toast({
         title: "Error",
         description: `Failed to fetch pollution data: ${error.message}`,
         variant: "destructive"
       });
+      throw error; // Re-throw to handle in components
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const setSelectedCity = (city: City | null) => {
+    _setSelectedCity(city);
+    if (city) {
+      fetchPollutionData(city.name).catch(error => {
+        console.error("Failed to fetch data for selected city:", error);
+      });
     }
   };
 
@@ -97,43 +109,55 @@ export const PollutionProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const cityObj = cities.find(c => c.name === city);
     if (cityObj) {
       setSelectedCity(cityObj);
+      fetchPollutionData(city).catch(error => {
+        console.error("Failed to fetch data for new location:", error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch data for the new location",
+          variant: "destructive"
+        });
+      });
     }
   };
+
+  useEffect(() => {
+    if (selectedCity) {
+      fetchPollutionData(selectedCity.name).catch(error => {
+        console.error("Failed to fetch data for selected city:", error);
+      });
+    }
+  }, [selectedCity?.name]);
 
   useEffect(() => {
     const getLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            try {
-              const { latitude, longitude } = position.coords;
-              const nearestCity = cities.find(city => 
-                Math.abs(city.lat - latitude) < 1 && 
-                Math.abs(city.lng - longitude) < 1
-              );
-              
-              // If no nearby city is found, use Delhi as default
-              const defaultCity = nearestCity || cities.find(c => c.name === "Delhi") || cities[0];
-              updateUserLocation(defaultCity.name, defaultCity.lat, defaultCity.lng);
-            } catch (err) {
-              console.error("Geolocation error:", err);
-              // Use Delhi as default city
-              const defaultCity = cities.find(c => c.name === "Delhi") || cities[0];
-              setSelectedCity(defaultCity);
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const nearestCity = cities.find(city => 
+              Math.abs(city.lat - latitude) < 1 && 
+              Math.abs(city.lng - longitude) < 1
+            );
+            
+            if (nearestCity) {
+              updateUserLocation(nearestCity.name, nearestCity.lat, nearestCity.lng);
+            } else {
+              toast({
+                title: "Location Notice",
+                description: "No supported cities found near your location. Please select a city manually.",
+                variant: "default"
+              });
             }
           },
           (error) => {
             console.error("Geolocation error:", error);
-            // Use Delhi as default city
-            const defaultCity = cities.find(c => c.name === "Delhi") || cities[0];
-            setSelectedCity(defaultCity);
+            toast({
+              title: "Location Error",
+              description: "Unable to get your location. Please select a city manually.",
+              variant: "destructive"
+            });
           }
         );
-      } else {
-        console.log("Geolocation is not supported");
-        // Use Delhi as default city
-        const defaultCity = cities.find(c => c.name === "Delhi") || cities[0];
-        setSelectedCity(defaultCity);
       }
     };
 
@@ -147,12 +171,6 @@ export const PollutionProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       realtimeService.disconnect();
     };
   }, []);
-
-  useEffect(() => {
-    if (selectedCity) {
-      fetchPollutionData(selectedCity.name);
-    }
-  }, [selectedCity]);
 
   const value = {
     userLocation,

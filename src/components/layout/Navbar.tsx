@@ -1,9 +1,9 @@
-import { Bell, Menu, Search, X } from "lucide-react";
+import { Menu, X, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTheme } from "@/contexts/ThemeContext";
+import { Link } from "react-router-dom";
 
 type NavbarProps = {
   sidebarOpen: boolean;
@@ -12,12 +12,12 @@ type NavbarProps = {
 
 const Navbar = ({ sidebarOpen, setSidebarOpen }: NavbarProps) => {
   const isMobile = useIsMobile();
-  const [searchFocused, setSearchFocused] = useState(false);
+  const { theme } = useTheme();
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b bg-white px-4 transition-all duration-300",
+        "sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b bg-background/95 backdrop-blur-sm px-4 transition-all duration-300",
         sidebarOpen && !isMobile ? "ml-64" : "ml-0"
       )}
     >
@@ -26,6 +26,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }: NavbarProps) => {
           variant="ghost"
           size="icon"
           onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="hover:bg-eco-light-green/20"
         >
           {sidebarOpen ? (
             <X className="h-5 w-5" />
@@ -34,20 +35,20 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }: NavbarProps) => {
           )}
         </Button>
 
-        <div className={cn("relative", searchFocused ? "flex-1" : "")}>
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-            <Input
-              placeholder="Search cities, pollution reports..."
-              className="w-full max-w-xs pl-9 transition-all"
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-            />
+        {/* Logo and Title */}
+        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <div className="flex items-center gap-2">
+            <Leaf className="h-6 w-6 text-eco-green" />
+            <div>
+              <h1 className="text-lg font-bold text-eco-dark-green">
+                Bharat Shudh
+              </h1>
+              <p className="text-[10px] text-eco-green -mt-1">
+                Real-Time Pollution Tracker
+              </p>
+            </div>
           </div>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2">
+        </Link>
       </div>
     </header>
   );

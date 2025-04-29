@@ -1,20 +1,13 @@
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { City } from "@/types";
-import { useState } from "react";
 
 export interface CitySelectorProps {
   cities: City[];
@@ -23,47 +16,35 @@ export interface CitySelectorProps {
 }
 
 export function CitySelector({ cities, selectedCity, onSelect }: CitySelectorProps) {
-  const [open, setOpen] = useState(false);
+  const handleSelect = (cityName: string) => {
+    const city = cities.find(c => c.name === cityName);
+    if (city) {
+      onSelect(city);
+    }
+  };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {selectedCity ? selectedCity.name : "Select city..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search city..." />
-          <CommandEmpty>No city found.</CommandEmpty>
-          <CommandGroup>
-            {cities.map((city) => (
-              <CommandItem
-                key={city.name}
-                value={city.name}
-                onSelect={() => {
-                  onSelect(city);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    selectedCity?.name === city.name ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {city.name}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <Select
+      value={selectedCity?.name}
+      onValueChange={handleSelect}
+    >
+      <SelectTrigger className="w-[200px]">
+        <SelectValue placeholder="Select city..." />
+      </SelectTrigger>
+      <SelectContent>
+        {cities.map((city) => (
+          <SelectItem
+            key={city.name}
+            value={city.name}
+            className="flex items-center gap-2"
+          >
+            {city.name === selectedCity?.name && (
+              <Check className="h-4 w-4" />
+            )}
+            {city.name}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
