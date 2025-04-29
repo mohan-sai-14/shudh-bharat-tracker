@@ -1,6 +1,6 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout } from '@/components/layout/Layout';
+import { Layout } from './components/layout/Layout';
 import Dashboard from '@/pages/Dashboard';
 import PollutionMap from '@/pages/PollutionMap';
 import ReportPollution from '@/pages/ReportPollution';
