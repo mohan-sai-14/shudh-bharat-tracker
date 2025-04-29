@@ -6,7 +6,7 @@ import {
   Camera, 
   Trophy, 
   Users, 
-  ChartLine, 
+  BarChart2, 
   Newspaper, 
   Leaf
 } from "lucide-react";
@@ -22,7 +22,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
     { name: "Pollution Map", path: "/map", icon: MapPin },
     { name: "Report Pollution", path: "/report", icon: Camera },
     { name: "State AQI/WQI Ranking", path: "/leaderboard", icon: Trophy },
-    { name: "Trends & Analysis", path: "/trends", icon: ChartLine },
+    { name: "Trends & Analysis", path: "/trends", icon: BarChart2 },
     { name: "Eco News", path: "/news", icon: Newspaper },
     { name: "Community", path: "/community", icon: Users }
   ];

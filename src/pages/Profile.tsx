@@ -1,4 +1,3 @@
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -6,29 +5,30 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserProfile } from "@/types";
 import { BookOpen, Camera, Trophy } from "lucide-react";
+import { useEffect, useState } from "react";
+
+interface UserStats {
+  reportCount: number;
+  commentsCount: number;
+  upvotesCount: number;
+}
 
 const Profile = () => {
   // Mock user profile data
-  const profile: UserProfile = {
+  const [profile, setProfile] = useState<UserProfile>({
     id: "user123",
     name: "Rohan Kumar",
     email: "rohan.kumar@example.com",
     city: "Bengaluru",
-    ecoPoints: reportCount * 100,
-    reportCount: 18,
-    challengesCompleted: 9,
-    badges: [
-      "Eco Warrior",
-      "Air Guardian",
-      "Cleanup Champion",
-      "Tree Planter",
-      "Water Protector"
-    ],
+    ecoPoints: 0,
+    reportCount: 0,
+    challengesCompleted: 0,
+    badges: [],
     joinDate: "2024-12-15"
-  };
+  });
 
   // Mock user pollution reports
-  const reports = [
+  const [reports, setReports] = useState([
     {
       id: "report1",
       title: "Factory emitting black smoke",
@@ -61,10 +61,10 @@ const Profile = () => {
       date: "2025-03-22",
       upvotes: 12
     }
-  ];
+  ]);
 
   // Mock completed challenges
-  const completedChallenges = [
+  const [completedChallenges, setCompletedChallenges] = useState([
     {
       id: "challenge1",
       title: "Plant 5 Trees",
@@ -83,7 +83,33 @@ const Profile = () => {
       points: 750,
       completedDate: "2025-03-15"
     }
-  ];
+  ]);
+
+  const [stats, setStats] = useState<UserStats>({
+    reportCount: 0,
+    commentsCount: 0,
+    upvotesCount: 0
+  });
+
+  useEffect(() => {
+    setProfile({
+      id: "user123",
+      name: "Rohan Kumar",
+      email: "rohan.kumar@example.com",
+      city: "Bengaluru",
+      ecoPoints: 18 * 100,
+      reportCount: 18,
+      challengesCompleted: 9,
+      badges: [
+        "Eco Warrior",
+        "Air Guardian",
+        "Cleanup Champion",
+        "Tree Planter",
+        "Water Protector"
+      ],
+      joinDate: "2024-12-15"
+    });
+  }, []);
 
   // Format join date
   const formatDate = (dateString: string) => {
@@ -180,9 +206,13 @@ const Profile = () => {
                 <Camera className="mr-2 h-4 w-4" />
                 Your Reports
               </TabsTrigger>
-              <TabsTrigger value="reports">
-                <Camera className="mr-2 h-4 w-4" />
-                Your Reports
+              <TabsTrigger value="activity">
+                <BookOpen className="mr-2 h-4 w-4" />
+                Your Activity
+              </TabsTrigger>
+              <TabsTrigger value="badges">
+                <Trophy className="mr-2 h-4 w-4" />
+                Your Badges
               </TabsTrigger>
             </TabsList>
 
@@ -227,7 +257,45 @@ const Profile = () => {
               </Card>
             </TabsContent>
 
-            
+            <TabsContent value="activity" className="pt-4">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg">Your Recent Activity</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {completedChallenges.map(challenge => (
+                      <div key={challenge.id} className="flex items-center justify-between p-3 border rounded-lg">
+                        <div>
+                          <div className="font-medium">{challenge.title}</div>
+                          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                            <span>{challenge.points} points</span>
+                            <span>{formatDate(challenge.completedDate)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="badges" className="pt-4">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg">Your Earned Badges</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {profile.badges.map((badge, index) => (
+                      <Badge key={index} variant="outline">
+                        {badge}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
           </Tabs>
         </div>
       </div>

@@ -12,14 +12,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Camera, ChartLine, MapPin, RefreshCw } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Camera, MapPin, RefreshCw, BarChart2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
 import { realtimeService } from "@/services/realtime";
 import { cn } from "@/lib/utils";
 import { City } from "@/types";
 import { useGeolocation } from "@/hooks/use-geolocation";
+import { getAQIData, getWQIData, reverseGeocode } from "@/lib/api";
+import { AQIData, WQIData } from "@/types";
+import { useState, useEffect } from "react";
 
 const Dashboard = () => {
   const { 
@@ -215,7 +217,7 @@ const Dashboard = () => {
                 </Button>
                 <Button className="w-full justify-start" variant="outline" asChild>
                   <Link to="/trends">
-                    <ChartLine className="mr-2 h-4 w-4" />
+                    <BarChart2 className="mr-2 h-4 w-4" />
                     View Pollution Trends
                   </Link>
                 </Button>

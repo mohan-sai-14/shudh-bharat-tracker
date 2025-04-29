@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -49,15 +48,21 @@ const generateComponentData = () => {
   ];
 };
 
+interface TrendData {
+  date: string;
+  aqi: number;
+  wqi: number;
+}
+
 const Trends = () => {
   const { cities, selectedCity, setSelectedCity, pollutionData, isLoading } = usePollution();
   const [timeRange, setTimeRange] = useState<"7days" | "30days" | "90days">("7days");
   
-  // Generate mock data based on the selected city and time range
-  const baseAqi = pollutionData?.aqi?.aqi || 80;
-  const baseWqi = pollutionData?.wqi?.wqi || 60;
+  // Extract numeric AQI and WQI values, defaulting to reasonable values if not available
+  const baseAqi = typeof pollutionData?.aqi?.aqi === 'number' ? pollutionData.aqi.aqi : 80;
+  const baseWqi = typeof pollutionData?.wqi?.wqi === 'number' ? pollutionData.wqi.wqi : 60;
   
-  const historicalData = {
+  const historicalData: { [key: string]: TrendData[] } = {
     "7days": generateHistoricalData(7, baseAqi, baseWqi),
     "30days": generateHistoricalData(30, baseAqi, baseWqi),
     "90days": generateHistoricalData(90, baseAqi, baseWqi)
@@ -183,7 +188,7 @@ const Trends = () => {
   );
 };
 
-const HistoricalTrendsContent = ({ data, isLoading }: { data: any[], isLoading: boolean }) => {
+const HistoricalTrendsContent = ({ data, isLoading }: { data: TrendData[], isLoading: boolean }) => {
   return (
     <div className="space-y-6">
       <Card>
