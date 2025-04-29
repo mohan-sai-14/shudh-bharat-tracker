@@ -1,4 +1,3 @@
-
 import { Bell, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,12 +48,6 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }: NavbarProps) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button variant="outline" size="icon" className="relative">
-          <Bell className="h-5 w-5" />
-          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-eco-green text-xs font-bold text-white">
-            2
-          </span>
-        </Button>
       </div>
     </header>
   );
