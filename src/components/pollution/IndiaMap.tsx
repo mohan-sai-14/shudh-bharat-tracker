@@ -78,10 +78,60 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
   }, [searchQuery]);
 
   useEffect(() => {
-    if (!mapContainer.current || !popupContainer.current) return;
+    if (!mapContainer.current) return;
 
-    // Define India bounds
-    const indiaBounds = [
+    const map = new Map({
+      target: mapContainer.current,
+      layers: [
+        new TileLayer({
+          source: new OSM()
+        })
+      ],
+      view: new View({
+        center: fromLonLat([78.9629, 20.5937]), // Center of India
+        zoom: 5,
+        minZoom: 4,
+        maxZoom: 12
+      })
+    });
+
+    // Store map instance for cleanup
+    map.current = map;
+
+    // Add markers if provided
+    if (markers.length > 0) {
+      addMarkers(markers);
+    }
+
+    return () => {
+      if (map) {
+        map.setTarget(undefined);
+      }
+    };
+  }, [markers]);
+
+  useEffect(() => {
+    if (!map.current || !popupContainer.current) return;
+
+    // Create popup overlay
+    overlay.current = new Overlay({
+      element: popupContainer.current,
+      autoPan: true,
+      positioning: 'bottom-center',
+      offset: [0, -10]
+    });
+
+    map.current.addOverlay(overlay.current);
+
+    return () => {
+      if (map.current && overlay.current) {
+        map.current.removeOverlay(overlay.current);
+      }
+    };
+  }, []);
+
+  // Define India bounds
+  const indiaBounds = [
       [68.1, 7.9], // Southwest coordinates of India
       [97.4, 35.5]  // Northeast coordinates of India
     ];
