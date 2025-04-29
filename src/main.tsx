@@ -6,5 +6,5 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 createRoot(document.getElementById("root")!).render(<App />);
 
-// If you want your app to work offline and load faster, register the service worker
-serviceWorkerRegistration.register();
+// Service worker registration temporarily disabled
+// serviceWorkerRegistration.register();
