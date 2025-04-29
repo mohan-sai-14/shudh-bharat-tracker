@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
@@ -8,12 +7,31 @@ import { InfoIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface AQICardProps {
-  data: AQIData;
+  data?: AQIData;
   city: string;
   className?: string;
 }
 
 export function AQICard({ data, city, className }: AQICardProps) {
+  if (!data) {
+    return (
+      <Card className={cn("overflow-hidden", className)}>
+        <div className="h-1.5 bg-gray-200" />
+        <CardHeader className="pb-2">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg font-bold">Air Quality Index</CardTitle>
+            <span className="text-sm text-muted-foreground">{city}</span>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-4 text-muted-foreground">
+            No AQI data available
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   const { aqi, components } = data;
   const { category, color } = getAQICategory(aqi);
   const healthMessage = getAQIHealthMessage(aqi);

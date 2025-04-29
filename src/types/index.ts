@@ -1,4 +1,3 @@
-
 // City Types
 export interface City {
   name: string;
@@ -27,9 +26,8 @@ export interface WQIComponents {
   ph: number;
   dissolved_oxygen: number;
   turbidity: number;
-  total_dissolved_solids: number;
-  nitrates: number;
-  fecal_coliform: number;
+  conductivity: number;
+  temperature: number;
 }
 
 export interface WQIData {
@@ -40,10 +38,9 @@ export interface WQIData {
 
 // Combined Pollution Data
 export interface PollutionData {
+  city: string;
   aqi: AQIData;
   wqi: WQIData;
-  city: string;
-  state: string;
   timestamp: string;
 }
 
@@ -97,11 +94,11 @@ export interface EcoChallenge {
   description: string;
   points: number;
   participants: number;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  difficulty: "Easy" | "Medium" | "Hard";
   duration: string;
   startDate: string;
   endDate: string;
-  type: 'Individual' | 'Community';
+  type: "Individual" | "Group";
   isActive: boolean;
   image?: string;
   completedBy: string[]; // Array of user IDs

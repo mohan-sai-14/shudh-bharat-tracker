@@ -1,43 +1,9 @@
-import Badge from 'path/to/Badge'; // Replace 'path/to/Badge' with the actual import path
-
 import { AQIData, WQIData, PollutionHotspot, StatePollutionData } from '@/types';
 
-// Real OpenAQ API implementation with error handling and no-cors mode
-export const fetchAQIData = async (lat: number, lng: number): Promise<AQIData> => {
+// Simulate API calls with random data for now
+export const fetchAQIData = async (city: string): Promise<AQIData> => {
   try {
-    const response = await fetch(`https://api.openaq.org/v2/latest?coordinates=${lat},${lng}&radius=50000&limit=1`, {
-      mode: 'no-cors',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer bebeb02e471dd66dec810c97ac5afea40af6af63b9453ae81683496b6973ba0e'
-      }
-    });
-
-    const data = await response.json();
-
-    if (data.results && data.results.length > 0) {
-      const measurements = data.results[0].measurements;
-      const components: AQIComponents = {
-        pm2_5: measurements.find((m: any) => m.parameter === 'pm25')?.value || 0,
-        pm10: measurements.find((m: any) => m.parameter === 'pm10')?.value || 0,
-        no2: measurements.find((m: any) => m.parameter === 'no2')?.value || 0,
-        so2: measurements.find((m: any) => m.parameter === 'so2')?.value || 0,
-        co: measurements.find((m: any) => m.parameter === 'co')?.value || 0,
-        o3: measurements.find((m: any) => m.parameter === 'o3')?.value || 0
-      };
-
-      const aqi = Math.max(calculateAQI(components.pm2_5, 'pm2_5'), calculateAQI(components.pm10, 'pm10'));
-
-      return {
-        aqi,
-        components,
-        timestamp: new Date().toISOString()
-      };
-    }
-
-    throw new Error('No data available');
-  } catch (error) {
-    console.error('Error fetching AQI data:', error);
+    // In a real implementation, we would use the city name to fetch data from a real API
     return {
       aqi: Math.floor(Math.random() * 300) + 50,
       components: {
@@ -50,6 +16,84 @@ export const fetchAQIData = async (lat: number, lng: number): Promise<AQIData> =
       },
       timestamp: new Date().toISOString()
     };
+  } catch (error) {
+    console.error('Error fetching AQI data:', error);
+    throw new Error('Failed to fetch AQI data');
+  }
+};
+
+export const fetchWQIData = async (city: string): Promise<WQIData> => {
+  try {
+    // In a real implementation, we would use the city name to fetch data from a real API
+    return {
+      wqi: Math.floor(Math.random() * 300) + 50,
+      components: {
+        ph: 6 + Math.random() * 3,
+        dissolved_oxygen: Math.random() * 10,
+        turbidity: Math.random() * 100,
+        conductivity: Math.random() * 1000,
+        temperature: 20 + Math.random() * 10
+      },
+      timestamp: new Date().toISOString()
+    };
+  } catch (error) {
+    console.error('Error fetching WQI data:', error);
+    throw new Error('Failed to fetch WQI data');
+  }
+};
+
+export const getAQICategory = (aqi: number) => {
+  if (aqi <= 50) return { category: 'Good', color: 'green' };
+  if (aqi <= 100) return { category: 'Moderate', color: 'yellow' };
+  if (aqi <= 150) return { category: 'Unhealthy for Sensitive Groups', color: 'orange' };
+  if (aqi <= 200) return { category: 'Unhealthy', color: 'red' };
+  if (aqi <= 300) return { category: 'Very Unhealthy', color: 'purple' };
+  return { category: 'Hazardous', color: 'maroon' };
+};
+
+export const getWQICategory = (wqi: number) => {
+  if (wqi <= 50) return { category: 'Excellent', color: 'green' };
+  if (wqi <= 100) return { category: 'Good', color: 'lime' };
+  if (wqi <= 150) return { category: 'Fair', color: 'yellow' };
+  if (wqi <= 200) return { category: 'Poor', color: 'orange' };
+  if (wqi <= 300) return { category: 'Very Poor', color: 'red' };
+  return { category: 'Hazardous', color: 'maroon' };
+};
+
+export const getAQIHealthMessage = (aqi: number): string => {
+  const { category } = getAQICategory(aqi);
+  switch (category) {
+    case 'Good': return 'Air quality is satisfactory, and air pollution poses little or no risk.';
+    case 'Moderate': return 'Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.';
+    case 'Unhealthy for Sensitive Groups': return 'Members of sensitive groups may experience health effects. The general public is less likely to be affected.';
+    case 'Unhealthy': return 'Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.';
+    case 'Very Unhealthy': return 'Health alert: The risk of health effects is increased for everyone.';
+    case 'Hazardous': return 'Health warning of emergency conditions: everyone is more likely to be affected.';
+    default: return 'Air quality data is currently unavailable.';
+  }
+};
+
+export const getWQIHealthMessage = (wqi: number): string => {
+  const { category } = getWQICategory(wqi);
+  switch (category) {
+    case 'Excellent': return 'Water quality is excellent. Safe for all uses.';
+    case 'Good': return 'Water quality is good. Safe for most uses.';
+    case 'Fair': return 'Water quality is acceptable. Some treatment may be needed for drinking.';
+    case 'Poor': return 'Water quality is poor. Treatment required before use.';
+    case 'Very Poor': return 'Water quality is very poor. Significant treatment required.';
+    case 'Hazardous': return 'Water is unsafe for any use without extensive treatment.';
+    default: return 'Water quality data is currently unavailable.';
+  }
+};
+
+export const getCityCoordinates = async (city: string): Promise<{lat: number, lng: number}> => {
+  try {
+    // For now, just return dummy coordinates since we're not using a real API
+    return { lat: 20.5937, lng: 78.9629 };
+  } catch (err) {
+    const error = err as Error;
+    console.error('Error getting city coordinates:', error);
+    throw new Error(`Failed to get coordinates: ${error.message}`);
   }
 };
 
@@ -93,31 +137,6 @@ const calculateAQI = (concentration: number, pollutant: 'pm2_5' | 'pm10'): numbe
   );
 };
 
-export const fetchWQIData = async (lat: number, lon: number): Promise<WQIData> => {
-  try {
-    const seed = Math.abs(Math.sin(lat * lon));
-    const baseWQI = 30 + Math.floor(seed * 70);
-
-    const components = {
-      ph: 6.5 + (seed * 2),
-      dissolved_oxygen: 6 + (seed * 4),
-      turbidity: seed * 10,
-      total_dissolved_solids: 200 + (seed * 300),
-      nitrates: seed * 5,
-      fecal_coliform: seed * 100
-    };
-
-    return {
-      wqi: baseWQI,
-      components,
-      timestamp: new Date().toISOString()
-    };
-  } catch (error) {
-    console.error('Error generating WQI data:', error);
-    throw new Error('Failed to generate WQI data');
-  }
-};
-
 export const fetchStatePollutionData = async (): Promise<StatePollutionData[]> => {
   const allStates = [
     { name: "Delhi", lat: 28.6139, lng: 77.2090 },
@@ -134,8 +153,8 @@ export const fetchStatePollutionData = async (): Promise<StatePollutionData[]> =
 
   const stateData: StatePollutionData[] = await Promise.all(
     allStates.map(async (state) => {
-      const aqi = await fetchAQIData(state.lat, state.lng);
-      const wqi = await fetchWQIData(state.lat, state.lng);
+      const aqi = await fetchAQIData(state.name);
+      const wqi = await fetchWQIData(state.name);
 
       const hotspots = await generateHotspotsForState(state.name, state.lat, state.lng);
 
@@ -164,8 +183,8 @@ const generateHotspotsForState = async (
     const latOffset = (Math.random() - 0.5) * 2;
     const lngOffset = (Math.random() - 0.5) * 2;
 
-    const aqi = await fetchAQIData(baseLat + latOffset, baseLng + lngOffset);
-    const wqi = await fetchWQIData(baseLat + latOffset, baseLng + lngOffset);
+    const aqi = await fetchAQIData(state);
+    const wqi = await fetchWQIData(state);
 
     const severity = aqi.aqi > 200 ? "Emergency" : aqi.aqi > 150 ? "Critical" : "High";
 
@@ -222,70 +241,4 @@ const generateRecommendations = (severity: string): string[] => {
         ...baseRecommendations
       ];
   }
-};
-
-export const getCityCoordinates = async (city: string): Promise<{lat: number, lng: number}> => {
-  try {
-    const response = await fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=4fb59c9232664f91a0e0e65d80dff0d4`,
-      {
-        mode: 'no-cors',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (!data.results || data.results.length === 0) {
-      throw new Error('City not found');
-    }
-
-    const { lat, lng } = data.results[0].geometry;
-    return { lat, lng };
-  } catch (error) {
-    console.error('Error getting city coordinates:', error);
-    throw new Error(`Failed to get coordinates: ${error.message}`);
-  }
-};
-
-export const getAQICategory = (aqi: number): {category: string, color: string} => {
-  if (aqi <= 50) return { category: 'Good', color: '#4CAF50' };
-  if (aqi <= 100) return { category: 'Moderate', color: '#FFEB3B' };
-  if (aqi <= 150) return { category: 'Unhealthy for Sensitive Groups', color: '#FF9800' };
-  if (aqi <= 200) return { category: 'Unhealthy', color: '#F44336' };
-  if (aqi <= 300) return { category: 'Very Unhealthy', color: '#9C27B0' };
-  return { category: 'Hazardous', color: '#7D1919' };
-};
-
-export const getWQICategory = (wqi: number): {category: string, color: string} => {
-  if (wqi <= 50) return { category: 'Excellent', color: '#4CAF50' };
-  if (wqi <= 100) return { category: 'Good', color: '#8BC34A' };
-  if (wqi <= 150) return { category: 'Fair', color: '#FFEB3B' };
-  if (wqi <= 200) return { category: 'Poor', color: '#FF9800' };
-  if (wqi <= 300) return { category: 'Very Poor', color: '#F44336' };
-  return { category: 'Unsuitable', color: '#7D1919' };
-};
-
-export const getAQIHealthMessage = (aqi: number): string => {
-  if (aqi <= 50) return "Air quality is satisfactory. Enjoy outdoor activities!";
-  if (aqi <= 100) return "Air quality is acceptable. Consider reducing prolonged outdoor activities if you're sensitive to pollution.";
-  if (aqi <= 150) return "Children, elderly, and individuals with respiratory diseases should limit outdoor exertion.";
-  if (aqi <= 200) return "Everyone may begin to experience health effects. Limit outdoor activities.";
-  if (aqi <= 300) return "Health warnings of emergency conditions. The entire population is more likely to be affected.";
-  return "EMERGENCY: Everyone should avoid all outdoor physical activities and stay indoors.";
-};
-
-export const getWQIHealthMessage = (wqi: number): string => {
-  if (wqi <= 50) return "Water quality is excellent. Safe for drinking and recreational activities.";
-  if (wqi <= 100) return "Water quality is good. Generally safe, but minor treatment recommended.";
-  if (wqi <= 150) return "Water requires treatment before drinking. OK for most recreational activities.";
-  if (wqi <= 200) return "Water requires significant treatment. Limit direct contact.";
-  if (wqi <= 300) return "Water is highly polluted. Avoid contact and do not consume without extensive treatment.";
-  return "Water is severely contaminated. Not suitable for any use without intensive treatment.";
 };
