@@ -11,6 +11,11 @@ type NavbarProps = {
   setSidebarOpen: (open: boolean) => void;
 };
 
+type NavbarProps = {
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+};
+
 const Navbar = ({ sidebarOpen, setSidebarOpen }: NavbarProps) => {
   const isMobile = useIsMobile();
   const [searchFocused, setSearchFocused] = useState(false);
