@@ -22,7 +22,6 @@ const Sidebar = ({ open }: SidebarProps) => {
     { name: "Pollution Map", path: "/map", icon: MapPin },
     { name: "Report Pollution", path: "/report", icon: Camera },
     { name: "State AQI/WQI Ranking", path: "/leaderboard", icon: Trophy },
-    { name: "Pollution Hotspots", path: "/pollution-alerts", icon: Users },
     { name: "Trends & Analysis", path: "/trends", icon: ChartLine },
     { name: "Eco News", path: "/news", icon: Newspaper },
     { name: "Community", path: "/community", icon: Users } // Added Community link
