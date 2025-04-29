@@ -1,0 +1,60 @@
+1. Breadth-First Search (BFS):
+What it does: Visits nodes level by level.
+
+Best used for: Finding shortest path in unweighted graphs.
+
+Example: In social networks, finding the minimum number of connections between two people.
+
+Time: O(V + E)
+Space: O(V) (for queue + visited list)
+
+2. Depth-First Search (DFS):
+What it does: Visits a node, then goes deeper before backtracking.
+
+Best used for: Cycle detection, connected components, topological sorting.
+
+Example: Solving mazes.
+
+Time: O(V + E)
+Space: O(V) (for recursion stack or explicit stack)
+
+3. Dijkstra's Algorithm:
+What it does: Finds the shortest path from one source to all other vertices (no negative weights allowed).
+
+Best used for: Route finding where all edge weights are positive (e.g., Google Maps).
+
+Data structures used: Min-Heap (Priority Queue).
+
+Time: O((V + E) log V) with priority queue
+Space: O(V)
+
+4. Bellman-Ford Algorithm:
+What it does: Finds shortest path even if edges have negative weights.
+
+Best used for: Graphs that may have negative weights.
+
+Can detect: Negative weight cycles (important in financial fraud detection etc.)
+
+Time: O(V * E)
+Space: O(V)
+
+5. Floyd-Warshall Algorithm:
+What it does: Calculates shortest paths between every pair of vertices.
+
+Best used for: Dense graphs or when multiple queries about shortest paths are needed.
+
+Approach: Dynamic programming.
+
+Time: O(V³)
+Space: O(V²)
+
+Summary Table:
+
+Aspect	BFS	DFS	Dijkstra	Bellman-Ford	Floyd-Warshall
+Traversal Type	Level-by-Level	Depth-first	Shortest Path (Positive Weights)	Shortest Path (with Negative Weights)	All-Pairs Shortest Path
+Graph Type	Unweighted	Any	Weighted (no negative)	Weighted (negative allowed)	Weighted
+Time Complexity	O(V + E)	O(V + E)	O((V + E) log V)	O(V * E)	O(V³)
+Space Complexity	O(V)	O(V)	O(V)	O(V)	O(V²)
+Negative Weights?	No	No	No	Yes	Yes
+Special Feature	Finds shortest path in unweighted graphs	Finds cycles, connected components	Fast single-source shortest path	Detects negative cycles	Finds shortest paths between all pairs
+✅ Q5 Completed!
