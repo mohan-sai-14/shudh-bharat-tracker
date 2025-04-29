@@ -1,0 +1,347 @@
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+client:535 WebSocket connection to 'wss://0.0.0.0:5000/' failed: 
+setupWebSocket @ client:535
+client:556 [vite] server connection lost. Polling for restart...
+0.0.0.0:5000/:1 
+            
+            
+           Failed to load resource: net::ERR_FAILED
+0.0.0.0:5000/:1 
+            
+            
+           Failed to load resource: net::ERR_FAILED
+App.tsx:3 Uncaught SyntaxError: The requested module '/src/components/layout/Layout.tsx' does not provide an export named 'Layout' (at App.tsx:3:10)
+4b68323f-fc86-4771-a31e-4385762e3b12-00-2ujb5jgnt8zj9.sisko.replit.dev/:1 Error while trying to use the following icon from the Manifest: https://4b68323f-fc86-4771-a31e-4385762e3b12-00-2ujb5jgnt8zj9.sisko.replit.dev:5000/logo192.png (Download error or resource isn't a valid image)
+0.0.0.0:5000/:1 
+            
+            
+           Failed to load resource: net::ERR_FAILED
+0.0.0.0:5000/:1 
+            
+            
+           Failed to load resource: net::ERR_FAILED
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+0.0.0.0:5000/:1 
+            
+            
+           Failed to load resource: net::ERR_FAILED
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+0.0.0.0:5000/:1 
+            
+            
+           Failed to load resource: net::ERR_FAILED
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+0.0.0.0:5000/:1 
+            
+            
+           Failed to load resource: net::ERR_FAILED
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+0.0.0.0:5000/:1 
+            
+            
+           Failed to load resource: net::ERR_FAILED
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+0.0.0.0:5000/:1 
+            
+            
+           Failed to load resource: net::ERR_FAILED
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
+client:732 
+            
+            
+           GET https://0.0.0.0:5000/ net::ERR_FAILED
+ping @ client:732
+waitForSuccessfulPing @ client:751
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.
+Promise.then
+(anonymous) @ service-worker.js:28
