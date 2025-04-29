@@ -91,17 +91,16 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
       target: mapContainer.current,
       layers: [
         new TileLayer({
-          source: new OSM()
+          source: new OSM({
+            crossOrigin: 'anonymous'
+          })
         })
       ],
       view: new View({
-        center: fromLonLat(center),
+        center: fromLonLat([78.9629, 20.5937]),
         zoom: 5,
-        extent: [
-          ...fromLonLat([indiaBounds[0][0], indiaBounds[0][1]]),
-          ...fromLonLat([indiaBounds[1][0], indiaBounds[1][1]])
-        ],
-        constrainOnlyCenter: true
+        minZoom: 4,
+        maxZoom: 12
       })
     });
 
@@ -247,7 +246,11 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
     <>
       {!mapConfigClosed && <MapConfig onClose={handleCloseMapConfig} />}
       <div className="relative w-full h-full min-h-[400px]">
-        <div ref={mapContainer} className="absolute inset-0 rounded-lg" />
+        <div 
+          ref={mapContainer} 
+          className="absolute inset-0 rounded-lg"
+          style={{ background: '#f8f9fa' }}
+        />
         <div 
           ref={popupContainer} 
           className="absolute z-10 transform -translate-x-1/2 pointer-events-auto" 
