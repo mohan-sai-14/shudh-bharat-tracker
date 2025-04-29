@@ -1,0 +1,215 @@
+
+  VITE v5.4.10  ready in 3748 ms
+
+  ➜  Local:   http://localhost:5000/
+  ➜  Network: http://172.31.128.67:5000/
+  ➜  press h + enter to show help
+Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Error processing file src/components/pollution/IndiaMap.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "DeclarationMissingInitializer",
+        loc: Position {
+  line: 188,
+  column: 50,
+  index: 5020,
+},
+        pos: 5020,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at parseVar (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12868:16)
+      at parseVarStatement (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12711:10)
+      at parseVarStatement (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9127:31)
+      at parseExportDeclaration (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9285:85)
+      at maybeParseExportDeclaration (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13362:31)
+      at parseExport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13287:29)
+      at parseStatementContent (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12357:27)
+      at parseBlockOrModuleBlockBody (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12797:36)
+
+4:22:30 AM [vite] Pre-transform error:   × 'const' declarations must be initialized
+     ╭─[/home/runner/workspace/src/components/pollution/IndiaMap.tsx:188:1]
+ 185 │       }
+ 186 │       document.removeEventListener('click', () => {});
+ 187 │     };
+ 188 │   }, [center, markers, mapConfigClosed, activeTab]);
+     ·      ─────────────────────────────────────────────
+ 189 │ 
+ 190 │   // Function to add markers to the map
+ 191 │   const addMarkers = (locations: Location[]) => {
+     ╰────
+  × Expected a semicolon
+     ╭─[/home/runner/workspace/src/components/pollution/IndiaMap.tsx:188:1]
+ 185 │       }
+ 186 │       document.removeEventListener('click', () => {});
+ 187 │     };
+ 188 │   }, [center, markers, mapConfigClosed, activeTab]);
+     ·                                                   ─
+ 189 │ 
+ 190 │   // Function to add markers to the map
+ 191 │   const addMarkers = (locations: Location[]) => {
+     ╰────
+  × Return statement is not allowed here
+     ╭─[/home/runner/workspace/src/components/pollution/IndiaMap.tsx:295:1]
+ 292 │         localStorage.setItem('mapConfigClosed', 'true');
+ 293 │       };
+ 294 │     
+ 295 │ ╭─▶   return (
+ 296 │ │       <>
+ 297 │ │         {!mapConfigClosed && <MapConfig onClose={handleCloseMapConfig} />}
+ 298 │ │         <div className="relative w-full h-full min-h-[400px]">
+ 299 │ │           <div 
+ 300 │ │             ref={mapContainer} 
+ 301 │ │             className="absolute inset-0 rounded-lg"
+ 302 │ │             style={{ background: '#f8f9fa' }}
+ 303 │ │           />
+ 304 │ │           <div 
+ 305 │ │             ref={popupContainer} 
+ 306 │ │             className="absolute z-10 transform -translate-x-1/2 pointer-events-auto" 
+ 307 │ │             style={{display: 'none'}}
+ 308 │ │           />
+ 309 │ │           <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search locations..." />
+ 310 │ │           {isSearching && <p>Searching...</p>}
+ 311 │ │           {searchResults.length > 0 && (
+ 312 │ │             <ul>
+ 313 │ │               {searchResults.map(result => (
+ 314 │ │                 <li key={result.name} onClick={() => {
+ 315 │ │                     // Add logic to center map on selected location
+ 316 │ │                   }}>{result.name}</li>
+ 317 │ │               ))}
+ 318 │ │             </ul>
+ 319 │ │           )}
+ 320 │ │         </div>
+ 321 │ │       </>
+ 322 │ ╰─▶   );
+ 323 │     };
+ 324 │     
+ 325 │     export default IndiaMap;
+     ╰────
+  × Expression expected
+     ╭─[/home/runner/workspace/src/components/pollution/IndiaMap.tsx:323:1]
+ 320 │       </div>
+ 321 │     </>
+ 322 │   );
+ 323 │ };
+     · ─
+ 324 │ 
+ 325 │ export default IndiaMap;
+     ╰────
+
+
+Caused by:
+    Syntax Error
+Error processing file src/components/pollution/IndiaMap.tsx: 357 |     if (oldReasonCodes[reasonCode]) {
+358 |       reasonCode = oldReasonCodes[reasonCode];
+359 |     }
+360 |   }
+361 |   return function constructor(loc, details) {
+362 |     const error = new SyntaxError();
+                        ^
+SyntaxError: 
+ reasonCode: "DeclarationMissingInitializer",
+        loc: Position {
+  line: 188,
+  column: 50,
+  index: 5020,
+},
+        pos: 5020,
+ syntaxPlugin: undefined,
+       code: "BABEL_PARSER_SYNTAX_ERROR"
+
+      at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:362:19)
+      at raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3259:19)
+      at parseVar (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12868:16)
+      at parseVarStatement (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12711:10)
+      at parseVarStatement (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9127:31)
+      at parseExportDeclaration (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9285:85)
+      at maybeParseExportDeclaration (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13362:31)
+      at parseExport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13287:29)
+      at parseStatementContent (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12357:27)
+      at parseBlockOrModuleBlockBody (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12797:36)
+
+4:22:31 AM [vite] Internal server error:   × 'const' declarations must be initialized
+     ╭─[/home/runner/workspace/src/components/pollution/IndiaMap.tsx:188:1]
+ 185 │       }
+ 186 │       document.removeEventListener('click', () => {});
+ 187 │     };
+ 188 │   }, [center, markers, mapConfigClosed, activeTab]);
+     ·      ─────────────────────────────────────────────
+ 189 │ 
+ 190 │   // Function to add markers to the map
+ 191 │   const addMarkers = (locations: Location[]) => {
+     ╰────
+  × Expected a semicolon
+     ╭─[/home/runner/workspace/src/components/pollution/IndiaMap.tsx:188:1]
+ 185 │       }
+ 186 │       document.removeEventListener('click', () => {});
+ 187 │     };
+ 188 │   }, [center, markers, mapConfigClosed, activeTab]);
+     ·                                                   ─
+ 189 │ 
+ 190 │   // Function to add markers to the map
+ 191 │   const addMarkers = (locations: Location[]) => {
+     ╰────
+  × Return statement is not allowed here
+     ╭─[/home/runner/workspace/src/components/pollution/IndiaMap.tsx:295:1]
+ 292 │         localStorage.setItem('mapConfigClosed', 'true');
+ 293 │       };
+ 294 │     
+ 295 │ ╭─▶   return (
+ 296 │ │       <>
+ 297 │ │         {!mapConfigClosed && <MapConfig onClose={handleCloseMapConfig} />}
+ 298 │ │         <div className="relative w-full h-full min-h-[400px]">
+ 299 │ │           <div 
+ 300 │ │             ref={mapContainer} 
+ 301 │ │             className="absolute inset-0 rounded-lg"
+ 302 │ │             style={{ background: '#f8f9fa' }}
+ 303 │ │           />
+ 304 │ │           <div 
+ 305 │ │             ref={popupContainer} 
+ 306 │ │             className="absolute z-10 transform -translate-x-1/2 pointer-events-auto" 
+ 307 │ │             style={{display: 'none'}}
+ 308 │ │           />
+ 309 │ │           <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search locations..." />
+ 310 │ │           {isSearching && <p>Searching...</p>}
+ 311 │ │           {searchResults.length > 0 && (
+ 312 │ │             <ul>
+ 313 │ │               {searchResults.map(result => (
+ 314 │ │                 <li key={result.name} onClick={() => {
+ 315 │ │                     // Add logic to center map on selected location
+ 316 │ │                   }}>{result.name}</li>
+ 317 │ │               ))}
+ 318 │ │             </ul>
+ 319 │ │           )}
+ 320 │ │         </div>
+ 321 │ │       </>
+ 322 │ ╰─▶   );
+ 323 │     };
+ 324 │     
+ 325 │     export default IndiaMap;
+     ╰────
+  × Expression expected
+     ╭─[/home/runner/workspace/src/components/pollution/IndiaMap.tsx:323:1]
+ 320 │       </div>
+ 321 │     </>
+ 322 │   );
+ 323 │ };
+     · ─
+ 324 │ 
+ 325 │ export default IndiaMap;
+     ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: /home/runner/workspace/src/components/pollution/IndiaMap.tsx:188:1
