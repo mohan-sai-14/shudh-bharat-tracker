@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -77,116 +78,6 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
     return () => clearTimeout(debounceTimer);
   }, [searchQuery]);
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
-
-    const map = new Map({
-      target: mapContainer.current,
-      layers: [
-        new TileLayer({
-          source: new OSM()
-        })
-      ],
-      view: new View({
-        center: fromLonLat([78.9629, 20.5937]), // Center of India
-        zoom: 5,
-        minZoom: 4,
-        maxZoom: 12
-      })
-    });
-
-    // Store map instance for cleanup
-    map.current = map;
-
-    // Add markers if provided
-    if (markers.length > 0) {
-      addMarkers(markers);
-    }
-
-    return () => {
-      if (map) {
-        map.setTarget(undefined);
-      }
-    };
-  }, [markers]);
-
-  useEffect(() => {
-    if (!map.current || !popupContainer.current) return;
-
-    // Create popup overlay
-    overlay.current = new Overlay({
-      element: popupContainer.current,
-      autoPan: true,
-      positioning: 'bottom-center',
-      offset: [0, -10]
-    });
-
-    map.current.addOverlay(overlay.current);
-
-    return () => {
-      if (map.current && overlay.current) {
-        map.current.removeOverlay(overlay.current);
-      }
-    };
-  }, []);
-
-  // Define India bounds
-  const indiaBounds = [
-      [68.1, 7.9], // Southwest coordinates of India
-      [97.4, 35.5]  // Northeast coordinates of India
-    ];
-
-    // Create the map
-    map.current = new Map({
-      target: mapContainer.current,
-      layers: [
-        new TileLayer({
-          source: new OSM({
-            crossOrigin: 'anonymous'
-          })
-        })
-      ],
-      view: new View({
-        center: fromLonLat([78.9629, 20.5937]),
-        zoom: 5,
-        minZoom: 4,
-        maxZoom: 12
-      })
-    });
-
-    // Create popup overlay with corrected options
-    overlay.current = new Overlay({
-      element: popupContainer.current,
-      autoPan: true,
-      positioning: 'bottom-center',
-      offset: [0, -10]
-    });
-
-    map.current.addOverlay(overlay.current);
-
-    // Add markers if provided
-    if (markers.length > 0) {
-      addMarkers(markers);
-    }
-
-    // Add click event to close popup
-    document.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      if (popupContainer.current && !popupContainer.current.contains(target) && 
-          !target.classList?.contains('ol-marker')) {
-        overlay.current?.setPosition(undefined);
-      }
-    });
-
-    return () => {
-      if (map.current) {
-        map.current.setTarget(undefined);
-        map.current = null;
-      }
-      document.removeEventListener('click', () => {});
-    };
-  }, [center, markers, mapConfigClosed, activeTab]);
-
   // Function to add markers to the map
   const addMarkers = (locations: Location[]) => {
     if (!map.current) return;
@@ -252,8 +143,56 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
 
     // Add to map
     map.current.addLayer(vectorLayer);
+  };
 
-    // Add click interaction
+  useEffect(() => {
+    if (!mapContainer.current) return;
+
+    // Create the map
+    const newMap = new Map({
+      target: mapContainer.current,
+      layers: [
+        new TileLayer({
+          source: new OSM()
+        })
+      ],
+      view: new View({
+        center: fromLonLat([78.9629, 20.5937]),
+        zoom: 5,
+        minZoom: 4,
+        maxZoom: 12
+      })
+    });
+
+    map.current = newMap;
+
+    // Add markers if provided
+    if (markers.length > 0) {
+      addMarkers(markers);
+    }
+
+    return () => {
+      if (map.current) {
+        map.current.setTarget(undefined);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!map.current || !popupContainer.current) return;
+
+    // Create popup overlay
+    const newOverlay = new Overlay({
+      element: popupContainer.current,
+      autoPan: true,
+      positioning: 'bottom-center',
+      offset: [0, -10]
+    });
+
+    map.current.addOverlay(newOverlay);
+    overlay.current = newOverlay;
+
+    // Add click event
     map.current.on('click', (event) => {
       const feature = map.current?.forEachFeatureAtPixel(event.pixel, feature => feature);
 
@@ -261,7 +200,6 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
         const location = feature.get('location') as Location;
         const coordinates = (feature.getGeometry() as Point).getCoordinates();
 
-        // Show popup with location info
         if (popupContainer.current && overlay.current) {
           popupContainer.current.innerHTML = `
             <div class="p-3 bg-white rounded-lg shadow-lg">
@@ -274,7 +212,6 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
           `;
           overlay.current.setPosition(coordinates);
 
-          // Call the callback if provided
           if (onMarkerClick) {
             onMarkerClick(location);
           }
@@ -285,7 +222,19 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
         }
       }
     });
-  };
+
+    return () => {
+      if (map.current && overlay.current) {
+        map.current.removeOverlay(overlay.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (map.current && markers.length > 0) {
+      addMarkers(markers);
+    }
+  }, [markers, activeTab]);
 
   const handleCloseMapConfig = () => {
     setMapConfigClosed(true);
@@ -306,14 +255,35 @@ export const IndiaMap = ({ center, markers = [], activeTab = 'aqi', onMarkerClic
           className="absolute z-10 transform -translate-x-1/2 pointer-events-auto" 
           style={{display: 'none'}}
         />
-        <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search locations..." />
-        {isSearching && <p>Searching...</p>}
+        <input 
+          type="text" 
+          value={searchQuery} 
+          onChange={e => setSearchQuery(e.target.value)} 
+          placeholder="Search locations..." 
+          className="absolute top-4 left-4 z-10 p-2 rounded-md border shadow-sm"
+        />
+        {isSearching && (
+          <p className="absolute top-16 left-4 z-10 bg-white p-2 rounded-md shadow-sm">
+            Searching...
+          </p>
+        )}
         {searchResults.length > 0 && (
-          <ul>
+          <ul className="absolute top-16 left-4 z-10 bg-white rounded-md shadow-sm max-h-48 overflow-y-auto">
             {searchResults.map(result => (
-              <li key={result.name} onClick={() => {
-                  // Add logic to center map on selected location
-                }}>{result.name}</li>
+              <li 
+                key={result.name} 
+                className="p-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => {
+                  if (map.current) {
+                    map.current.getView().animate({
+                      center: fromLonLat([result.lng, result.lat]),
+                      zoom: 10
+                    });
+                  }
+                }}
+              >
+                {result.name}
+              </li>
             ))}
           </ul>
         )}
